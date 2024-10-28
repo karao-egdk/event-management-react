@@ -1,3 +1,4 @@
+import BudgetDialog from "../components/BudgetDialog";
 import EventCard from "../components/EventCard";
 import EventDialog from "../components/EventDialog";
 import { EventDetailsProp } from "../lib/interface";
@@ -51,7 +52,7 @@ function EventManagement() {
                 />
                 <EventDialog />
             </div>
-
+                <BudgetDialog />
             <div className="grid gap-10 md:grid-cols-2 mx-auto">
                 {eventDetails.map((event, index) => {
                     return <EventCard key={index} eventDetails={event} />;
