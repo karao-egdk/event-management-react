@@ -1,14 +1,44 @@
 import EventCard from "../components/EventCard";
-import { Button } from "../components/ui/button";
+import EventDialog from "../components/EventDialog";
+import { EventDetailsProp } from "../lib/interface";
 
 function EventManagement() {
-    const eventDetails = {
-        eventId: "",
-        title: "Tech Conference 2023",
-        date: "2023-09-15",
-        location: "San Francisco, CA",
-        isEventDone: false,
-    };
+
+    const eventDetails: EventDetailsProp[] = [
+        {
+            eventId: "",
+            title: "Tech Conference 2023",
+            date: "2023-09-15",
+            location: "San Francisco, CA",
+            isEventDone: true,
+            budget: {
+                expenses: [],
+                income: [],
+            }
+        },
+        {
+            eventId: "",
+            title: "Startup Networking Mixer",
+            date: "2023-10-01",
+            location: "New York, NY",
+            isEventDone: true,
+            budget: {
+                expenses: [],
+                income: [],
+            }
+        },
+        {
+            eventId: "",
+            title: "Tech Conference 2023",
+            date: "2024-10-31",
+            location: "Grande hotel Mangalore",
+            isEventDone: false,
+            budget: {
+                expenses: [],
+                income: [],
+            }
+        },
+    ];
 
     return (
         <section className="container mx-auto flex flex-col gap-5 py-10 px-2">
@@ -19,15 +49,13 @@ function EventManagement() {
                     placeholder="Search for event"
                     className="flex h-10 w-1/2 rounded-md border border-black/25 bg-background px-3 py-2 text-sm focus:border-0"
                 />
-                <Button>Create New Event</Button>
+                <EventDialog />
             </div>
 
             <div className="grid gap-10 md:grid-cols-2 mx-auto">
-                <EventCard eventDetails={eventDetails} />
-                <EventCard eventDetails={eventDetails} />
-                <EventCard eventDetails={eventDetails} />
-                <EventCard eventDetails={eventDetails} />
-                <EventCard eventDetails={eventDetails} />
+                {eventDetails.map((event, index) => {
+                    return <EventCard key={index} eventDetails={event} />;
+                })}
             </div>
         </section>
     );
