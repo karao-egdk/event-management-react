@@ -1,4 +1,3 @@
-import React from "react";
 import { Button } from "./ui/button";
 
 interface EventDetailsProp {
@@ -11,14 +10,14 @@ interface EventDetailsProp {
 
 function EventCard({ eventDetails }: { eventDetails: EventDetailsProp }) {
     return (
-        <div className="rounded-lg border shadow-sm max-w-[22rem] p-4">
+        <div className="rounded-lg border shadow-sm sm:w-[25rem] p-4">
             <h2 className="text-md font-bold">{eventDetails.title}</h2>
 
             <div className="my-4">
                 <p>Date: {eventDetails.date}</p>
                 <p>Location: {eventDetails.location}</p>
             </div>
-            <div className="space-x-4">
+            <div className="sm:space-x-4 space-x-2">
                 {eventDetails.isEventDone ? (
                     <p className="inline items-center justify-center gap-2 rounded-md text-sm font-medium h-10 px-4 py-2 w-fit bg-gray-100 text-black cursor-default">Done</p>
                 ) : (
