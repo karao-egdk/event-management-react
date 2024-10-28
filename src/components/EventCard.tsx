@@ -1,12 +1,5 @@
+import { EventDetailsProp } from "../lib/interface";
 import { Button } from "./ui/button";
-
-interface EventDetailsProp {
-    eventId: string;
-    title: string;
-    date: string;
-    location: string;
-    isEventDone: boolean;
-}
 
 function EventCard({ eventDetails }: { eventDetails: EventDetailsProp }) {
     return (
