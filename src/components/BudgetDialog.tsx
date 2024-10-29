@@ -37,6 +37,9 @@ function BudgetDialog({ eventId }: { eventId: string }) {
     const incomes: Budget[] =
         events.find((event) => event.eventId === eventId)?.budget.income || [];
 
+    const heading: string =
+        events.find((event) => event.eventId === eventId)?.title || "";
+
     const calcBudget =
         incomes.reduce((prev, curr) => {
             return prev + curr.amount;
@@ -73,7 +76,7 @@ function BudgetDialog({ eventId }: { eventId: string }) {
             </DialogTrigger>
             <DialogContent className="max-h-screen overflow-y-auto">
                 <DialogHeader>
-                    <DialogTitle>Tech Conference 2023 - Budget</DialogTitle>
+                    <DialogTitle>{heading}</DialogTitle>
                 </DialogHeader>
                 <div>
                     <h1 className="font-semibold">Income</h1>
