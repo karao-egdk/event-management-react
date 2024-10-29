@@ -1,4 +1,8 @@
-import { EventContextInterface, ReducerProps } from "../../lib/interface";
+import {
+    EventContextInterface,
+    EventDetailsProp,
+    ReducerProps,
+} from "../../lib/interface";
 
 export const initialState: EventContextInterface = {
     events: [
@@ -51,6 +55,28 @@ export const initialState: EventContextInterface = {
     ],
 };
 
+const updateEventStatus = (events: EventDetailsProp[]) => {
+    console.log(events)
+    const updatedEvents = events.map((event) => {
+        if (new Date(event.date) < new Date()) {
+            const updatedEvent = {
+                ...event,
+                isEventDone: true,
+            };
+            return updatedEvent;
+        }
+        else {
+            const updatedEvent = {
+                ...event,
+                isEventDone: false,
+            };
+            return updatedEvent;
+        }
+    });
+
+    return updatedEvents;
+};
+
 const eventReducer = (
     state: EventContextInterface,
     action: ReducerProps
@@ -59,35 +85,34 @@ const eventReducer = (
 
     switch (type) {
         case "ADD_EVENT":
-            console.log("reducer", payload.events);
             return {
                 ...state,
-                events: payload.events,
+                events: updateEventStatus(payload.events),
             };
         case "EDIT_EVENT":
             return {
                 ...state,
-                events: payload.events,
+                events: updateEventStatus(payload.events),
             };
         case "ADD_EXPENSE":
             return {
                 ...state,
-                events: payload.events,
+                events: updateEventStatus(payload.events),
             };
         case "ADD_INCOME":
             return {
                 ...state,
-                events: payload.events,
+                events: updateEventStatus(payload.events),
             };
         case "DELETE_EXPENSE":
             return {
                 ...state,
-                events: payload.events,
+                events: updateEventStatus(payload.events),
             };
         case "DELETE_INCOME":
             return {
                 ...state,
-                events: payload.events,
+                events: updateEventStatus(payload.events),
             };
         default:
             return state;

@@ -49,7 +49,7 @@ function EventDialog({
             const event: EventDetailsProp = {
                 title: input.input,
                 location: input.location,
-                date: date.toISOString().substring(0, 10),
+                date: date.toLocaleString('fr-CA', {timeZone: 'Asia/Kolkata'}).substring(0, 10),
                 budget: {
                     expenses: [],
                     income: [],
@@ -127,7 +127,10 @@ function EventDialog({
                             <Calendar
                                 mode="single"
                                 selected={date}
-                                onSelect={setDate}
+                                onSelect={(date) => {
+                                    console.log(date)
+                                    setDate(date);
+                                }}
                                 initialFocus
                             />
                         </PopoverContent>
