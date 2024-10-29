@@ -1,4 +1,5 @@
 import React from "react";
+import { nanoid } from "nanoid";
 import {
     Popover,
     PopoverTrigger,
@@ -9,6 +10,7 @@ import { format } from "date-fns";
 import { Button } from "../components/ui/button";
 import {
     Dialog,
+    DialogClose,
     DialogContent,
     DialogHeader,
     DialogTitle,
@@ -16,9 +18,45 @@ import {
 } from "../components/ui/dialog";
 import { cn } from "../lib/utils";
 import { Calendar } from "../components/ui/calendar";
+import useEvent from "../context/EventContext";
+import { EventDetailsProp } from "../lib/interface";
 
 function EventDialog() {
     const [date, setDate] = React.useState<Date>();
+    const [input, setInput] = React.useState<{
+        input: string;
+        location: string;
+    }>({
+        input: "",
+        location: "",
+    });
+    const { addEvent } = useEvent();
+
+    const addEv = () => {
+        if (input.input === "" && input.location === "") return;
+
+        if (date) {
+            const event: EventDetailsProp = {
+                title: input.input,
+                location: input.location,
+                date: date.toISOString().substring(0, 10),
+                budget: {
+                    expenses: [],
+                    income: [],
+                },
+                isEventDone: false,
+                eventId: nanoid(),
+            };
+
+            addEvent(event);
+            setDate(undefined);
+            setInput({
+                input: "",
+                location: "",
+            });
+        }
+    };
+
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -37,6 +75,10 @@ function EventDialog() {
                     </label>
                     <input
                         id="title"
+                        value={input.input}
+                        onChange={(ev) =>
+                            setInput({ ...input, input: ev.target.value })
+                        }
                         className="flex h-10 w-full rounded-md border border-black/25 bg-background px-3 py-2 text-sm focus:border-0 flex-[2]"
                     />
                 </div>
@@ -81,11 +123,22 @@ function EventDialog() {
                     <input
                         id="location"
                         className="flex h-10 w-full rounded-md border border-black/25 bg-background px-3 py-2 text-sm focus:border-0 flex-[2]"
+                        value={input.location}
+                        onChange={(ev) =>
+                            setInput({ ...input, location: ev.target.value })
+                        }
                     />
                 </div>
-                <Button type="submit" size="sm" className="px-3">
-                    Create Event
-                </Button>
+                <DialogClose asChild>
+                    <Button
+                        onClick={addEv}
+                        type="submit"
+                        size="sm"
+                        className="px-3"
+                    >
+                        Create Event
+                    </Button>
+                </DialogClose>
             </DialogContent>
         </Dialog>
     );
