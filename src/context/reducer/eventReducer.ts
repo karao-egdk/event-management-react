@@ -20,7 +20,6 @@ export const initialState: EventContextInterface = {
 };
 
 const updateEventStatus = (events: EventDetailsProp[]) => {
-    console.log(events);
     const updatedEvents = events.map((event) => {
         if (new Date(event.date) < new Date()) {
             const updatedEvent = {

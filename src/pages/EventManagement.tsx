@@ -32,11 +32,17 @@ function EventManagement() {
                 />
                 <EventDialog type="create" />
             </div>
-            <div className="grid gap-10 md:grid-cols-2 mx-auto">
-                {eventDetails.map((event, index) => {
-                    return <EventCard key={index} eventDetails={event} />;
-                })}
-            </div>
+            {eventDetails.length === 0 ? (
+                <h1 className="w-full text-center text-xl font-semibold">
+                    No events created
+                </h1>
+            ) : (
+                <div className="grid gap-10 md:grid-cols-2 mx-auto">
+                    {eventDetails.map((event, index) => {
+                        return <EventCard key={index} eventDetails={event} />;
+                    })}
+                </div>
+            )}
         </section>
     );
 }

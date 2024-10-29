@@ -128,7 +128,6 @@ function EventDialog({
                                 mode="single"
                                 selected={date}
                                 onSelect={(date) => {
-                                    console.log(date)
                                     setDate(date);
                                 }}
                                 initialFocus
