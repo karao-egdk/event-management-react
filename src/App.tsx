@@ -1,10 +1,13 @@
 import './App.css'
+import { EventProvider } from './context/EventContext'
 import EventManagement from './pages/EventManagement'
 
 function App() {
 
   return (
-    <EventManagement />
+    <EventProvider>
+      <EventManagement />
+    </EventProvider>
   )
 }
 

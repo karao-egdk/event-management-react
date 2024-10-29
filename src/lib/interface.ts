@@ -11,6 +11,20 @@ export interface EventDetailsProp {
 }
 
 export interface Budget {
+    budgetId: string;
     description: string;
     amount: number;
+}
+
+export interface EventContextInterface {
+    events: EventDetailsProp[];
+}
+interface Payload {
+    events: EventDetailsProp[];
+    updateStateType?: "editEvent" | "budgetSelected" | "isBudgetOpen";
+}
+
+export interface ReducerProps {
+    type: string;
+    payload: Payload;
 }

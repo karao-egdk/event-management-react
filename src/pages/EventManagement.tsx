@@ -1,45 +1,10 @@
-import BudgetDialog from "../components/BudgetDialog";
 import EventCard from "../components/EventCard";
 import EventDialog from "../components/EventDialog";
-import { EventDetailsProp } from "../lib/interface";
+import useEvent from "../context/EventContext";
 
 function EventManagement() {
 
-    const eventDetails: EventDetailsProp[] = [
-        {
-            eventId: "",
-            title: "Tech Conference 2023",
-            date: "2023-09-15",
-            location: "San Francisco, CA",
-            isEventDone: true,
-            budget: {
-                expenses: [],
-                income: [],
-            }
-        },
-        {
-            eventId: "",
-            title: "Startup Networking Mixer",
-            date: "2023-10-01",
-            location: "New York, NY",
-            isEventDone: true,
-            budget: {
-                expenses: [],
-                income: [],
-            }
-        },
-        {
-            eventId: "",
-            title: "Tech Conference 2023",
-            date: "2024-10-31",
-            location: "Grande hotel Mangalore",
-            isEventDone: false,
-            budget: {
-                expenses: [],
-                income: [],
-            }
-        },
-    ];
+    const eventDetails = useEvent().events;
 
     return (
         <section className="container mx-auto flex flex-col gap-5 py-10 px-2">
@@ -52,7 +17,6 @@ function EventManagement() {
                 />
                 <EventDialog />
             </div>
-                <BudgetDialog />
             <div className="grid gap-10 md:grid-cols-2 mx-auto">
                 {eventDetails.map((event, index) => {
                     return <EventCard key={index} eventDetails={event} />;
