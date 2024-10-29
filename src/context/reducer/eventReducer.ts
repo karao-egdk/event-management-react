@@ -34,7 +34,7 @@ export const initialState: EventContextInterface = {
             }
         },
         {
-            eventId: "",
+            eventId: "444",
             title: "Tech Conference 2023",
             date: "2024-10-31",
             location: "Grande hotel Mangalore",

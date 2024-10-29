@@ -21,18 +21,28 @@ import { Calendar } from "../components/ui/calendar";
 import useEvent from "../context/EventContext";
 import { EventDetailsProp } from "../lib/interface";
 
-function EventDialog() {
-    const [date, setDate] = React.useState<Date>();
+function EventDialog({
+    type,
+    data,
+    eventId,
+}: {
+    type: "edit" | "create";
+    data?: { input: string; location: string; date: string };
+    eventId?: string;
+}) {
+    const [date, setDate] = React.useState<Date | undefined>(
+        data?.date ? new Date(data?.date) : undefined
+    );
     const [input, setInput] = React.useState<{
         input: string;
         location: string;
     }>({
-        input: "",
-        location: "",
+        input: data?.input || "",
+        location: data?.location || "",
     });
-    const { addEvent } = useEvent();
+    const { addEvent, updateEvent } = useEvent();
 
-    const addEv = () => {
+    const modifyEvent = () => {
         if (input.input === "" && input.location === "") return;
 
         if (date) {
@@ -45,26 +55,36 @@ function EventDialog() {
                     income: [],
                 },
                 isEventDone: false,
-                eventId: nanoid(),
+                eventId: eventId === undefined ? nanoid() : eventId,
             };
 
-            addEvent(event);
-            setDate(undefined);
-            setInput({
-                input: "",
-                location: "",
-            });
+            if (type === "create") {
+                addEvent(event);
+                setDate(undefined);
+                setInput({
+                    input: "",
+                    location: "",
+                });
+            } else updateEvent(event);
         }
     };
 
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button>Create new Event</Button>
+                {type === "create" ? (
+                    <Button>Create new Event</Button>
+                ) : (
+                    <Button className="bg-white text-black hover:bg-gray-100 border">
+                        Edit Event
+                    </Button>
+                )}
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Create New Event</DialogTitle>
+                    <DialogTitle>
+                        {type === "create" ? "Create New Event" : "Edit Event"}
+                    </DialogTitle>
                 </DialogHeader>
                 <div className="flex items-center space-x-4">
                     <label
@@ -131,12 +151,12 @@ function EventDialog() {
                 </div>
                 <DialogClose asChild>
                     <Button
-                        onClick={addEv}
+                        onClick={modifyEvent}
                         type="submit"
                         size="sm"
                         className="px-3"
                     >
-                        Create Event
+                        {type === "create" ? "Create Event" : "Update Event"}
                     </Button>
                 </DialogClose>
             </DialogContent>

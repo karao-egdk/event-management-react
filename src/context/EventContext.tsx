@@ -6,17 +6,27 @@ interface ContextProps {
     events: EventDetailsProp[];
     addEvent: (event: EventDetailsProp) => void;
     updateEvent: (event: EventDetailsProp) => void;
-    addBudget: (events: EventDetailsProp[], stateId: string | undefined, type: "expense" | "income", budget: Budget | undefined) => void;
-    deleteBudget: (id: string | undefined, events: EventDetailsProp[], stateId: string | undefined, type: "expense" | "income") => void;
+    addBudget: (
+        events: EventDetailsProp[],
+        stateId: string | undefined,
+        type: "expense" | "income",
+        budget: Budget | undefined
+    ) => void;
+    deleteBudget: (
+        id: string | undefined,
+        events: EventDetailsProp[],
+        stateId: string | undefined,
+        type: "expense" | "income"
+    ) => void;
 }
 
 const createContextInitialState: ContextProps = {
     events: [],
-    addEvent: () => {},    
+    addEvent: () => {},
     updateEvent: () => {},
     addBudget: () => {},
-    deleteBudget: () => {}
-}
+    deleteBudget: () => {},
+};
 
 const EventContext = createContext(createContextInitialState);
 
@@ -24,7 +34,6 @@ export const EventProvider = ({ children }: { children: React.ReactNode }) => {
     const [state, dispatch] = useReducer(eventReducer, initialState);
 
     const addEvent = (event: EventDetailsProp) => {
-        console.log(event)
         const events = state.events;
         events.push(event);
 
@@ -39,9 +48,13 @@ export const EventProvider = ({ children }: { children: React.ReactNode }) => {
     const updateEvent = (event: EventDetailsProp) => {
         const updatedEvents = state.events.map((ev) => {
             if (ev.eventId === event.eventId) {
-                ev.title = event.title;
-                ev.location = event.location;
-                ev.date = event.date;
+                const newEv = {
+                    ...ev,
+                    title: event.title,
+                    location: event.location,
+                    date: event.date,
+                };
+                return newEv;
             }
             return ev;
         });
@@ -116,14 +129,12 @@ export const EventProvider = ({ children }: { children: React.ReactNode }) => {
             updatedEvents = [];
             updatedEvents = events.map((event) => {
                 if (event.eventId === stateId) {
-                    console.log(event)
-                    if (budget){ event.budget.expenses.push(budget);
+                    if (budget) {
+                        event.budget.expenses.push(budget);
                     }
                 }
                 return event;
             });
-
-            console.log(updatedEvents)
 
             dispatch({
                 type: "ADD_EXPENSE",

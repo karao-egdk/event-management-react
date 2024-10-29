@@ -1,8 +1,14 @@
 import { EventDetailsProp } from "../lib/interface";
 import BudgetDialog from "./BudgetDialog";
-import { Button } from "./ui/button";
+import EventDialog from "./EventDialog";
 
 function EventCard({ eventDetails }: { eventDetails: EventDetailsProp }) {
+
+    const data = {
+        input: eventDetails.title,
+        location: eventDetails.location,
+        date: eventDetails.date
+    }
 
     return (
         <div className="rounded-lg border shadow-sm sm:w-[25rem] p-4">
@@ -22,9 +28,7 @@ function EventCard({ eventDetails }: { eventDetails: EventDetailsProp }) {
                         Upcoming
                     </p>
                 )}
-                <Button className="bg-white text-black hover:bg-gray-100 border">
-                    Edit Event
-                </Button>
+                <EventDialog type="edit" data={data} eventId={eventDetails.eventId} />
                 <BudgetDialog eventId={eventDetails.eventId} />
             </div>
         </div>
