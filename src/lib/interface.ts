@@ -19,6 +19,7 @@ export interface Budget {
 export interface EventContextInterface {
     events: EventDetailsProp[];
 }
+
 interface Payload {
     events: EventDetailsProp[];
     updateStateType?: "editEvent" | "budgetSelected" | "isBudgetOpen";

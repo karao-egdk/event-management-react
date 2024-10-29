@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "../components/ui/button";
-import { nanoid } from 'nanoid'
+import { nanoid } from "nanoid";
 
 import {
     Dialog,
@@ -22,12 +22,13 @@ import {
 } from "./ui/table";
 
 function BudgetDialog({ eventId }: { eventId: string }) {
-    const [input, setInput] = React.useState<{amount: number, description: string}>(
-        {
-            amount: 0,
-            description: ""
-        }
-    );
+    const [input, setInput] = React.useState<{
+        amount: number;
+        description: string;
+    }>({
+        amount: 0,
+        description: "",
+    });
     const { events, deleteBudget, addBudget } = useEvent();
 
     const expenses: Budget[] =
@@ -46,22 +47,22 @@ function BudgetDialog({ eventId }: { eventId: string }) {
 
     const delBudget = (id: string, type: "income" | "expense") => {
         deleteBudget(id, events, eventId, type);
-    }
+    };
 
     const addBud = (type: "income" | "expense") => {
-        if(input.amount === 0 && input.description === "") return;
+        if (input.amount === 0 && input.description === "") return;
 
         const budget: Budget = {
-            amount:input.amount,
+            amount: input.amount,
             budgetId: nanoid(),
-            description: input.description
-        }
-        addBudget(events, eventId, type, budget)
+            description: input.description,
+        };
+        addBudget(events, eventId, type, budget);
         setInput({
             amount: 0,
-            description: ""
-        })
-    }
+            description: "",
+        });
+    };
 
     return (
         <Dialog>
@@ -94,7 +95,10 @@ function BudgetDialog({ eventId }: { eventId: string }) {
                                         <TableCell>
                                             <Button
                                                 onClick={() =>
-                                                    delBudget(income.budgetId, "income")
+                                                    delBudget(
+                                                        income.budgetId,
+                                                        "income"
+                                                    )
                                                 }
                                                 variant={"destructive"}
                                             >
@@ -127,7 +131,10 @@ function BudgetDialog({ eventId }: { eventId: string }) {
                                         <TableCell>
                                             <Button
                                                 onClick={() =>
-                                                    delBudget(expense.budgetId, "expense")
+                                                    delBudget(
+                                                        expense.budgetId,
+                                                        "expense"
+                                                    )
                                                 }
                                                 variant={"destructive"}
                                             >
@@ -160,30 +167,44 @@ function BudgetDialog({ eventId }: { eventId: string }) {
                             type="text"
                             placeholder="Description"
                             value={input.description}
-                            onChange={(e) => setInput({
-                                ...input,
-                                description: e.target.value
-                            })}
+                            onChange={(e) =>
+                                setInput({
+                                    ...input,
+                                    description: e.target.value,
+                                })
+                            }
                             className="flex h-10 w-1/2 rounded-md border border-black/25 bg-background px-3 py-2 text-sm focus:border-0"
-                            />
+                        />
                         <input
                             type="number"
                             placeholder="0"
                             value={input.amount}
-                            onChange={(e) => setInput({
-                                ...input,
-                                amount: parseInt(e.target.value)
-                            })}
+                            onChange={(e) =>
+                                setInput({
+                                    ...input,
+                                    amount: parseInt(e.target.value),
+                                })
+                            }
                             className="flex h-10 w-1/2 rounded-md border border-black/25 bg-background px-3 py-2 text-sm focus:border-0"
                         />
                     </div>
                 </div>
 
                 <div className="flex gap-2">
-                    <Button onClick={() => addBud("income")} type="submit" size="sm" className="w-fit">
+                    <Button
+                        onClick={() => addBud("income")}
+                        type="submit"
+                        size="sm"
+                        className="w-fit"
+                    >
                         Add Income
                     </Button>
-                    <Button onClick={() => addBud("expense")} type="submit" size="sm" className="w-fit">
+                    <Button
+                        onClick={() => addBud("expense")}
+                        type="submit"
+                        size="sm"
+                        className="w-fit"
+                    >
                         Add Expense
                     </Button>
                 </div>

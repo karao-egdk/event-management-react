@@ -3,12 +3,11 @@ import BudgetDialog from "./BudgetDialog";
 import EventDialog from "./EventDialog";
 
 function EventCard({ eventDetails }: { eventDetails: EventDetailsProp }) {
-
     const data = {
         input: eventDetails.title,
         location: eventDetails.location,
-        date: eventDetails.date
-    }
+        date: eventDetails.date,
+    };
 
     return (
         <div className="rounded-lg border shadow-sm sm:w-[25rem] p-4">
@@ -28,7 +27,11 @@ function EventCard({ eventDetails }: { eventDetails: EventDetailsProp }) {
                         Upcoming
                     </p>
                 )}
-                <EventDialog type="edit" data={data} eventId={eventDetails.eventId} />
+                <EventDialog
+                    type="edit"
+                    data={data}
+                    eventId={eventDetails.eventId}
+                />
                 <BudgetDialog eventId={eventDetails.eventId} />
             </div>
         </div>

@@ -17,10 +17,14 @@ export const initialState: EventContextInterface = {
                     },
                 ],
                 expenses: [
-                    { budgetId: "1", description: "Venue Rental", amount: 2000 },
+                    {
+                        budgetId: "1",
+                        description: "Venue Rental",
+                        amount: 2000,
+                    },
                     { budgetId: "2", description: "Catering", amount: 1000 },
                 ],
-            }
+            },
         },
         {
             eventId: "def",
@@ -31,7 +35,7 @@ export const initialState: EventContextInterface = {
             budget: {
                 expenses: [],
                 income: [],
-            }
+            },
         },
         {
             eventId: "444",
@@ -42,9 +46,9 @@ export const initialState: EventContextInterface = {
             budget: {
                 expenses: [],
                 income: [],
-            }
+            },
         },
-    ]
+    ],
 };
 
 const eventReducer = (
@@ -55,7 +59,7 @@ const eventReducer = (
 
     switch (type) {
         case "ADD_EVENT":
-            console.log("reducer", payload.events)
+            console.log("reducer", payload.events);
             return {
                 ...state,
                 events: payload.events,
