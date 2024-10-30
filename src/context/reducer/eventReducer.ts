@@ -8,32 +8,28 @@ const addDataToLocalStorage = (allEvents: EventDetailsProp[]) => {
     localStorage.setItem("events", JSON.stringify(allEvents));
 };
 
-const getDateFromLocalStorage = (): EventDetailsProp[] | null => {
+const getDataFromLocalStorage = (): EventDetailsProp[] | null => {
     const value = localStorage.getItem("events");
 
-    if (typeof value === "string") return JSON.parse(value);
+    if (typeof value === "string") {
+        const parsedData: EventDetailsProp[] = JSON.parse(value);
+        updateEventStatus(parsedData);
+        return parsedData;
+    }
     return null;
 };
 
 export const initialState: EventContextInterface = {
-    events: getDateFromLocalStorage() || [],
+    events: getDataFromLocalStorage() || [],
 };
 
 const updateEventStatus = (events: EventDetailsProp[]) => {
     const updatedEvents = events.map((event) => {
-        if (new Date(event.date) < new Date()) {
-            const updatedEvent = {
-                ...event,
-                isEventDone: true,
-            };
-            return updatedEvent;
-        } else {
-            const updatedEvent = {
-                ...event,
-                isEventDone: false,
-            };
-            return updatedEvent;
-        }
+        const updatedEvent = {
+            ...event,
+            isEventDone: new Date(event.date) < new Date() ? true : false,
+        };
+        return updatedEvent;
     });
 
     return updatedEvents;
