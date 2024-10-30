@@ -54,7 +54,12 @@ function BudgetDialog({ eventId }: { eventId: string }) {
     };
 
     const addBud = (type: "income" | "expense") => {
-        if (input.amount === 0 && input.description === "") return;
+        console.log(input.amount)
+        if (
+            (input.amount === 0 || isNaN(input.amount)) &&
+            input.description === ""
+        )
+            return;
 
         const budget: Budget = {
             amount: input.amount,
@@ -185,7 +190,7 @@ function BudgetDialog({ eventId }: { eventId: string }) {
                             onChange={(e) =>
                                 setInput({
                                     ...input,
-                                    amount: parseInt(e.target.value) || 0,
+                                    amount: parseInt(e.target.value),
                                 })
                             }
                         />
