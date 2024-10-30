@@ -54,7 +54,6 @@ function BudgetDialog({ eventId }: { eventId: string }) {
     };
 
     const addBud = (type: "income" | "expense") => {
-        console.log(input.amount)
         if (
             (input.amount === 0 || isNaN(input.amount)) &&
             input.description === ""
