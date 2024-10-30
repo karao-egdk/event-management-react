@@ -20,6 +20,7 @@ import { cn } from "../lib/utils";
 import { Calendar } from "../components/ui/calendar";
 import useEvent from "../context/EventContext";
 import { EventDetailsProp } from "../lib/interface";
+import Input from "./ui/input";
 
 function EventDialog({
     type,
@@ -93,13 +94,14 @@ function EventDialog({
                     >
                         Title
                     </label>
-                    <input
+                    <Input
                         id="title"
+                        className="flex-[2]"
+                        type="text"
                         value={input.input}
                         onChange={(ev) =>
                             setInput({ ...input, input: ev.target.value })
                         }
-                        className="flex h-10 w-full rounded-md border border-black/25 bg-background px-3 py-2 text-sm focus:border-0 flex-[2]"
                     />
                 </div>
                 <div className="flex items-center space-x-4">
@@ -142,9 +144,10 @@ function EventDialog({
                     >
                         Location
                     </label>
-                    <input
+                    <Input
                         id="location"
-                        className="flex h-10 w-full rounded-md border border-black/25 bg-background px-3 py-2 text-sm focus:border-0 flex-[2]"
+                        className="flex-[2]"
+                        type="text"
                         value={input.location}
                         onChange={(ev) =>
                             setInput({ ...input, location: ev.target.value })

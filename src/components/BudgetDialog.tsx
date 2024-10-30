@@ -20,6 +20,7 @@ import {
     TableHeader,
     TableRow,
 } from "./ui/table";
+import Input from "./ui/input";
 
 function BudgetDialog({ eventId }: { eventId: string }) {
     const [input, setInput] = React.useState<{
@@ -166,7 +167,7 @@ function BudgetDialog({ eventId }: { eventId: string }) {
                 <div>
                     <h1 className="font-semibol">Add New Item</h1>
                     <div className="flex gap-1">
-                        <input
+                        <Input
                             type="text"
                             placeholder="Description"
                             value={input.description}
@@ -176,19 +177,17 @@ function BudgetDialog({ eventId }: { eventId: string }) {
                                     description: e.target.value,
                                 })
                             }
-                            className="flex h-10 w-1/2 rounded-md border border-black/25 bg-background px-3 py-2 text-sm focus:border-0"
                         />
-                        <input
+                        <Input
                             type="number"
                             placeholder="0"
                             value={input.amount}
                             onChange={(e) =>
                                 setInput({
                                     ...input,
-                                    amount: parseInt(e.target.value),
+                                    amount: parseInt(e.target.value) || 0,
                                 })
                             }
-                            className="flex h-10 w-1/2 rounded-md border border-black/25 bg-background px-3 py-2 text-sm focus:border-0"
                         />
                     </div>
                 </div>
