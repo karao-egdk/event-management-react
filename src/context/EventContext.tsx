@@ -18,6 +18,7 @@ interface ContextProps {
         stateId: string | undefined,
         type: "expense" | "income"
     ) => void;
+    deleteEvent: (eventId: string) => void;
 }
 
 const createContextInitialState: ContextProps = {
@@ -26,6 +27,7 @@ const createContextInitialState: ContextProps = {
     updateEvent: () => {},
     addBudget: () => {},
     deleteBudget: () => {},
+    deleteEvent: () => {},
 };
 
 const EventContext = createContext(createContextInitialState);
@@ -61,6 +63,21 @@ export const EventProvider = ({ children }: { children: React.ReactNode }) => {
 
         dispatch({
             type: "EDIT_EVENT",
+            payload: {
+                events: updatedEvents,
+            },
+        });
+    };
+
+    const deleteEvent = (eventId: string) => {
+        const events = state.events;
+
+        const updatedEvents = events.filter(
+            (event) => event.eventId !== eventId
+        );
+
+        dispatch({
+            type: "DELETE_EVENT",
             payload: {
                 events: updatedEvents,
             },
@@ -165,6 +182,7 @@ export const EventProvider = ({ children }: { children: React.ReactNode }) => {
         updateEvent,
         addBudget,
         deleteBudget,
+        deleteEvent,
     };
 
     return (

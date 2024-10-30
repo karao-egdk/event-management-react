@@ -8,21 +8,6 @@ const addDataToLocalStorage = (allEvents: EventDetailsProp[]) => {
     localStorage.setItem("events", JSON.stringify(allEvents));
 };
 
-const getDataFromLocalStorage = (): EventDetailsProp[] | null => {
-    const value = localStorage.getItem("events");
-
-    if (typeof value === "string") {
-        const parsedData: EventDetailsProp[] = JSON.parse(value);
-        updateEventStatus(parsedData);
-        return parsedData;
-    }
-    return null;
-};
-
-export const initialState: EventContextInterface = {
-    events: getDataFromLocalStorage() || [],
-};
-
 const updateEventStatus = (events: EventDetailsProp[]) => {
     const updatedEvents = events.map((event) => {
         const updatedEvent = {
@@ -35,6 +20,21 @@ const updateEventStatus = (events: EventDetailsProp[]) => {
     return updatedEvents;
 };
 
+const getDataFromLocalStorage = (): EventDetailsProp[] | null => {
+    const value = localStorage.getItem("events");
+
+    if (typeof value === "string") {
+        const parsedData: EventDetailsProp[] = JSON.parse(value);
+        const updatedEvent = updateEventStatus(parsedData);
+        return updatedEvent;
+    }
+    return null;
+};
+
+export const initialState: EventContextInterface = {
+    events: getDataFromLocalStorage() || [],
+};
+
 const eventReducer = (
     state: EventContextInterface,
     action: ReducerProps
@@ -44,6 +44,7 @@ const eventReducer = (
     switch (type) {
         case "ADD_EVENT":
         case "EDIT_EVENT":
+        case "DELETE_EVENT":
         case "ADD_EXPENSE":
         case "ADD_INCOME":
         case "DELETE_EXPENSE":

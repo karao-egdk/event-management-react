@@ -1,5 +1,6 @@
 import { EventDetailsProp } from "../lib/interface";
 import BudgetDialog from "./BudgetDialog";
+import DeleteEventDialog from "./DeleteEventDialog";
 import EventDialog from "./EventDialog";
 
 function EventCard({ eventDetails }: { eventDetails: EventDetailsProp }) {
@@ -10,8 +11,11 @@ function EventCard({ eventDetails }: { eventDetails: EventDetailsProp }) {
     };
 
     return (
-        <div className="rounded-lg border shadow-sm sm:w-[25rem] p-4">
-            <h2 className="text-md font-bold">{eventDetails.title}</h2>
+        <div className="rounded-lg border shadow-sm sm:w-[25rem] p-4 group">
+            <div className="flex justify-between w-full items-center">
+                <h2 className="text-md font-bold">{eventDetails.title}</h2>
+                <DeleteEventDialog id={eventDetails.eventId} />
+            </div>
 
             <div className="my-4">
                 <p>Date: {eventDetails.date}</p>
