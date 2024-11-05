@@ -164,7 +164,7 @@ function BudgetDialog({ eventId }: { eventId: string }) {
                             calcBudget >= 0 ? "bg-green-200" : "bg-red-200"
                         )}
                     >
-                        ${calcBudget}
+                        {calcBudget}$
                     </p>
                 </div>
 
