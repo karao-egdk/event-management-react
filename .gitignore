@@ -22,3 +22,25 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Dropwizard files
+config.yml
+db.properties
+
+*.class
+.classpath
+.project
+.settings
+.idea
+*.iml
+logs
+target
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+out
+*.log
+dependency-reduced-pom.xml
