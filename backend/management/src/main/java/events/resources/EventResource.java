@@ -12,6 +12,7 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -62,8 +63,8 @@ public class EventResource {
 	}
 
 	@DELETE
-	@Path("/delete")
-	public Response deleteEvent(String eventId) {
+	@Path("/delete/{eventId}")
+	public Response deleteEvent(@PathParam("eventId") String eventId) {
 		try {
 			eventService.deleteEvent(eventId);
 			return Response.status(Status.OK).entity("Event deleted successfully").build();
