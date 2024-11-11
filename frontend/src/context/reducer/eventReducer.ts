@@ -1,3 +1,4 @@
+import axios from "axios";
 import {
     EventContextInterface,
     EventDetailsProp,
@@ -22,6 +23,8 @@ const updateEventStatus = (events: EventDetailsProp[]) => {
 
 const getDataFromLocalStorage = (): EventDetailsProp[] | null => {
     const value = localStorage.getItem("events");
+
+    axios.get('http://localhost:8080/events').then(res => console.log(res));
 
     if (typeof value === "string") {
         const parsedData: EventDetailsProp[] = JSON.parse(value);
