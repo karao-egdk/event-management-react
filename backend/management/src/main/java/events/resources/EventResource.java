@@ -45,7 +45,7 @@ public class EventResource {
 			return Response.status(Status.OK).entity("Event added successfully").build();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Response.status(Status.BAD_GATEWAY).entity(e.getMessage()).build();
+			return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
 		}
 	}
 
@@ -57,7 +57,7 @@ public class EventResource {
 			return Response.status(Status.OK).entity("Event updated successfully").build();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Response.status(Status.BAD_GATEWAY).entity(e.getMessage()).build();
+			return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
 		}
 	}
 
@@ -69,7 +69,7 @@ public class EventResource {
 			return Response.status(Status.OK).entity("Event deleted successfully").build();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Response.status(Status.BAD_GATEWAY).entity(e.getMessage()).build();
+			return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
 		}
 	}
 
@@ -81,7 +81,7 @@ public class EventResource {
 			return Response.status(Status.OK).entity("Budget added successfully").build();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Response.status(Status.BAD_GATEWAY).entity(e.getMessage()).build();
+			return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
 		}
 	}
 
@@ -93,7 +93,7 @@ public class EventResource {
 			return Response.status(Status.OK).entity("Budget deleted successfully").build();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Response.status(Status.BAD_GATEWAY).entity(e.getMessage()).build();
+			return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
 		}
 	}
 }
