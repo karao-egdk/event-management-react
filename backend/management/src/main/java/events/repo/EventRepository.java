@@ -65,7 +65,9 @@ public class EventRepository implements EventDao {
 
 	@Override
 	public void deleteBudget(String budgetId) {
-		// TODO Auto-generated method stub
+		final String DELETE_BUDGET = "DELETE FROM BUDGET WHERE id = ?";
+
+		database.update(SqlQuery.query(DELETE_BUDGET, budgetId));
 
 	}
 
