@@ -87,8 +87,8 @@ public class EventResource {
 	}
 
 	@DELETE
-	@Path("/budget/delete")
-	public Response deleteBudget(String budgetId) {
+	@Path("/budget/delete/{budgetId}")
+	public Response deleteBudget(@PathParam("budgetId") String budgetId) {
 		try {
 			eventService.deleteBudget(budgetId);
 			return Response.status(Status.OK).entity("Budget deleted successfully").build();
