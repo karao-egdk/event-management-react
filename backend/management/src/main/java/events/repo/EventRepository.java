@@ -50,7 +50,9 @@ public class EventRepository implements EventDao {
 
 	@Override
 	public void deleteEvent(String eventId) {
-		// TODO Auto-generated method stub
+		final String DELETE_EVENT = "DELETE FROM EVENT WHERE id = ?";
+
+		database.update(SqlQuery.query(DELETE_EVENT, eventId));
 
 	}
 

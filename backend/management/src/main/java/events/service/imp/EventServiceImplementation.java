@@ -92,7 +92,10 @@ public class EventServiceImplementation implements EventService {
 
 	@Override
 	public void deleteEvent(String eventId) throws NoDataException {
-		// TODO Auto-generated method stub
+		if (eventId == null || eventId.equals(""))
+			throw new NoDataException("Event Data is null");
+
+		repo.deleteEvent(eventId);
 
 	}
 
