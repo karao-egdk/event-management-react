@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BudgetDto {
 	private List<BudgetDetailsDto> income;
-	private List<BudgetDetailsDto> expense;
+	private List<BudgetDetailsDto> expenses;
 }

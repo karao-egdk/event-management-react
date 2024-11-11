@@ -68,7 +68,7 @@ public class EventServiceImplementation implements EventService {
 			List<BudgetDetailsDto> incomeBudget = repo.getBudget(event.getEventId(), BudgetType.INCOME);
 			List<BudgetDetailsDto> expenseBudget = repo.getBudget(event.getEventId(), BudgetType.EXPENSE);
 
-			budget.setExpense(expenseBudget);
+			budget.setExpenses(expenseBudget);
 			budget.setIncome(incomeBudget);
 
 			event.setBudget(budget);
