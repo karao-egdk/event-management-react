@@ -21,21 +21,18 @@ const updateEventStatus = (events: EventDetailsProp[]) => {
     return updatedEvents;
 };
 
-const getDataFromLocalStorage = (): EventDetailsProp[] | null => {
-    const value = localStorage.getItem("events");
-
-    axios.get('http://localhost:8080/events').then(res => console.log(res));
-
-    if (typeof value === "string") {
-        const parsedData: EventDetailsProp[] = JSON.parse(value);
-        const updatedEvent = updateEventStatus(parsedData);
-        return updatedEvent;
+const getData = async (): Promise<EventDetailsProp[] | null> => {
+    try {
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}`);
+        return res.data;
+    } catch (error) {
+        console.error(error);
+        return null;
     }
-    return null;
 };
 
 export const initialState: EventContextInterface = {
-    events: getDataFromLocalStorage() || [],
+    events: (await getData()) || [],
 };
 
 const eventReducer = (

@@ -1,6 +1,8 @@
 import React, { createContext, useReducer, useContext } from "react";
 import eventReducer, { initialState } from "./reducer/eventReducer";
 import { Budget, EventDetailsProp } from "../lib/interface";
+import axios from "axios";
+import { toast } from "sonner";
 
 interface ContextProps {
     events: EventDetailsProp[];
@@ -35,16 +37,34 @@ const EventContext = createContext(createContextInitialState);
 export const EventProvider = ({ children }: { children: React.ReactNode }) => {
     const [state, dispatch] = useReducer(eventReducer, initialState);
 
-    const addEvent = (event: EventDetailsProp) => {
+    const addEvent = async (event: EventDetailsProp) => {
         const events = state.events;
-        events.push(event);
 
-        dispatch({
-            type: "ADD_EVENT",
-            payload: {
-                events,
-            },
-        });
+        try {
+            const res = await axios.post(
+                `${import.meta.env.VITE_BACKEND_BASE_URL}/add`,
+                event
+            );
+
+            if (res.status === 200) {
+                events.push(event);
+
+                dispatch({
+                    type: "ADD_EVENT",
+                    payload: {
+                        events,
+                    },
+                });
+
+                toast("Event created!", {
+                    description: "Successfully Created",
+                });
+            }
+        } catch (error) {
+            toast("Error!", {
+                description: "Error occured, please try again later",
+            });
+        }
     };
 
     const updateEvent = (event: EventDetailsProp) => {

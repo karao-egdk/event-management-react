@@ -36,6 +36,8 @@ db.properties
 logs
 target
 
+.env
+
 # Package Files #
 *.jar
 *.war
