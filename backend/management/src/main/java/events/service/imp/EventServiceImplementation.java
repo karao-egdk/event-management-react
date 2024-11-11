@@ -79,7 +79,14 @@ public class EventServiceImplementation implements EventService {
 
 	@Override
 	public void updateEvent(Event event) throws NoDataException {
-		// TODO Auto-generated method stub
+		if (event == null)
+			throw new NoDataException("Event Data is null");
+
+		if (event.getTitle() == null || event.getDate() == null || event.getLocation() == null
+				|| event.getEventId() == null)
+			throw new NoDataException("Some data missing");
+
+		repo.updateEvent(event);
 
 	}
 

@@ -42,7 +42,9 @@ public class EventRepository implements EventDao {
 
 	@Override
 	public void updateEvent(Event event) {
-		// TODO Auto-generated method stub
+		final String UPDATE_EVENT = "UPDATE EVENT SET title = :title, date = :date, location = :location WHERE id = :eventId";
+
+		database.update(SqlQuery.namedQuery(UPDATE_EVENT, event));
 
 	}
 
