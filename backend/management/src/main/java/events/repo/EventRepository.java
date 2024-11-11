@@ -20,20 +20,21 @@ public class EventRepository implements EventDao {
 
 	@Override
 	public List<BudgetDetailsDto> getBudget(String eventId, BudgetType type) {
-		final String GET_BUDGET = "SELECT id, description, amount FROM BUDGET WHERE event_id = ? AND budget_type = ?";
+		final String GET_BUDGET = "SELECT id, description, amount FROM BUDGET WHERE event_id = ? AND budget_type = cast(? as BUDGET_TYPE)";
 		return database.findAll(BudgetDetailsDto.class, SqlQuery.query(GET_BUDGET, eventId, type));
 
 	}
 
 	@Override
 	public void addEvent(Event event) {
-		// TODO Auto-generated method stub
+		final String ADD_EVENT = "INSERT INTO EVENT (id, title, date, location) VALUES (:eventId, :title, :date, :location)";
 
+		database.update(SqlQuery.namedQuery(ADD_EVENT, event));
 	}
 
 	@Override
 	public List<Event> getEvents() {
-		final String GET_EVENTS = "SELECT * FROM EVENTS";
+		final String GET_EVENTS = "SELECT * FROM EVENT";
 
 		List<Event> events = database.findAll(Event.class, GET_EVENTS);
 		return events;

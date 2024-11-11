@@ -16,6 +16,7 @@ import events.dto.BudgetDto;
 import events.entity.Budget;
 import events.entity.Event;
 import events.enums.BudgetType;
+import events.exceptions.NoDataException;
 import events.repo.EventRepository;
 import events.service.EventService;
 
@@ -42,8 +43,15 @@ public class EventServiceImplementation implements EventService {
 	}
 
 	@Override
-	public void addEvent(Event event) {
-		// TODO Auto-generated method stub
+	public void addEvent(Event event) throws NoDataException {
+		if (event == null)
+			throw new NoDataException("Event Data is null");
+
+		if (event.getTitle() == null || event.getDate() == null || event.getLocation() == null
+				|| event.getEventId() == null)
+			throw new NoDataException("Some data missing");
+
+		repo.addEvent(event);
 
 	}
 
@@ -56,10 +64,10 @@ public class EventServiceImplementation implements EventService {
 
 		for (Event event : events) {
 			BudgetDto budget = new BudgetDto();
-			
+
 			List<BudgetDetailsDto> incomeBudget = repo.getBudget(event.getEventId(), BudgetType.INCOME);
 			List<BudgetDetailsDto> expenseBudget = repo.getBudget(event.getEventId(), BudgetType.EXPENSE);
-			
+
 			budget.setExpense(expenseBudget);
 			budget.setIncome(incomeBudget);
 
@@ -70,25 +78,25 @@ public class EventServiceImplementation implements EventService {
 	}
 
 	@Override
-	public void updateEvent(Event event) {
+	public void updateEvent(Event event) throws NoDataException {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void deleteEvent(String eventId) {
+	public void deleteEvent(String eventId) throws NoDataException {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void addBudget(Budget budget) {
+	public void addBudget(Budget budget) throws NoDataException {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void deleteBudget(String budgetId) {
+	public void deleteBudget(String budgetId) throws NoDataException {
 		// TODO Auto-generated method stub
 
 	}
