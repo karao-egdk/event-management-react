@@ -12,7 +12,7 @@ interface ContextProps {
         events: EventDetailsProp[],
         stateId: string | undefined,
         type: "expense" | "income",
-        budget: Budget | undefined
+        budget: Budget
     ) => void;
     deleteBudget: (
         id: string | undefined,
@@ -61,56 +61,110 @@ export const EventProvider = ({ children }: { children: React.ReactNode }) => {
                 });
             }
         } catch (error) {
+            console.error(error);
             toast("Error!", {
                 description: "Error occured, please try again later",
             });
         }
     };
 
-    const updateEvent = (event: EventDetailsProp) => {
-        const updatedEvents = state.events.map((ev) => {
-            if (ev.eventId === event.eventId) {
-                const newEv = {
-                    ...ev,
-                    title: event.title,
-                    location: event.location,
-                    date: event.date,
-                };
-                return newEv;
-            }
-            return ev;
-        });
+    const updateEvent = async (event: EventDetailsProp) => {
+        try {
+            const res = await axios.put(
+                `${import.meta.env.VITE_BACKEND_BASE_URL}/update`,
+                event
+            );
 
-        dispatch({
-            type: "EDIT_EVENT",
-            payload: {
-                events: updatedEvents,
-            },
-        });
+            if (res.status === 200) {
+                const updatedEvents = state.events.map((ev) => {
+                    if (ev.eventId === event.eventId) {
+                        const newEv = {
+                            ...ev,
+                            title: event.title,
+                            location: event.location,
+                            date: event.date,
+                        };
+                        return newEv;
+                    }
+                    return ev;
+                });
+
+                dispatch({
+                    type: "EDIT_EVENT",
+                    payload: {
+                        events: updatedEvents,
+                    },
+                });
+
+                toast("Event Updated!", {
+                    description: "Successfully Updated your event",
+                });
+            }
+        } catch (error) {
+            console.error(error);
+            toast("Error!", {
+                description: "Error occured, please try again later",
+            });
+        }
     };
 
-    const deleteEvent = (eventId: string) => {
+    const deleteEvent = async (eventId: string) => {
         const events = state.events;
 
-        const updatedEvents = events.filter(
-            (event) => event.eventId !== eventId
-        );
+        try {
+            const res = await axios.delete(
+                `${import.meta.env.VITE_BACKEND_BASE_URL}/delete/${eventId}`
+            );
 
-        dispatch({
-            type: "DELETE_EVENT",
-            payload: {
-                events: updatedEvents,
-            },
-        });
+            if (res.status === 200) {
+                const updatedEvents = events.filter(
+                    (event) => event.eventId !== eventId
+                );
+
+                dispatch({
+                    type: "DELETE_EVENT",
+                    payload: {
+                        events: updatedEvents,
+                    },
+                });
+
+                toast("Event deleted", {
+                    description: "Event was successfully deleted",
+                });
+            }
+        } catch (error) {
+            console.error(error);
+            toast("Error!", {
+                description: "Error occured, please try again later",
+            });
+        }
     };
 
-    const deleteBudget = (
+    const deleteBudget = async(
         id: string | undefined,
         events: EventDetailsProp[],
         stateId: string | undefined,
         type: "expense" | "income"
-    ): void => {
+    ): Promise<void> => {
         if (!id && !stateId) return;
+
+        try {
+            await axios.delete(
+                `${import.meta.env.VITE_BACKEND_BASE_URL}/budget/delete/${id}`
+            );
+
+            toast("Budget deleted", {
+                description: type + " was deleted successfully",
+            });
+        } catch (error) {
+            console.error(error);
+            toast("Budget Error", {
+                description: "Couldn't delete data",
+            });
+            return;
+        }
+
+
         let budget;
         let updatedEvents;
 
@@ -153,13 +207,39 @@ export const EventProvider = ({ children }: { children: React.ReactNode }) => {
         }
     };
 
-    const addBudget = (
+    const addBudget = async (
         events: EventDetailsProp[],
         stateId: string | undefined,
         type: "expense" | "income",
-        budget: Budget | undefined
-    ): void => {
+        budget: Budget
+    ): Promise<void> => {
         if (!stateId) return;
+
+        try {
+            const createBudget = {
+                amount: budget.amount,
+                description: budget.description,
+                id: budget.budgetId,
+                eventId: stateId,
+                type: type.toUpperCase(),
+            };
+
+            await axios.post(
+                `${import.meta.env.VITE_BACKEND_BASE_URL}/budget/add`,
+                createBudget
+            );
+
+            toast("Budget added", {
+                description: type + " was added successfully",
+            });
+        } catch (error) {
+            console.error(error);
+            toast("Budget Error", {
+                description: "Couldn't add data",
+            });
+            return;
+        }
+
         let updatedEvents;
 
         if (type === "expense") {
