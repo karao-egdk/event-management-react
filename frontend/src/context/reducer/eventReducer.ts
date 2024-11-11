@@ -9,18 +9,6 @@ const addDataToLocalStorage = (allEvents: EventDetailsProp[]) => {
     localStorage.setItem("events", JSON.stringify(allEvents));
 };
 
-const updateEventStatus = (events: EventDetailsProp[]) => {
-    const updatedEvents = events.map((event) => {
-        const updatedEvent = {
-            ...event,
-            isEventDone: new Date(event.date) < new Date() ? true : false,
-        };
-        return updatedEvent;
-    });
-
-    return updatedEvents;
-};
-
 const getData = async (): Promise<EventDetailsProp[] | null> => {
     try {
         const res = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}`);
@@ -51,7 +39,7 @@ const eventReducer = (
         case "DELETE_INCOME":
             const updatedAllEvents = {
                 ...state,
-                events: updateEventStatus(payload.events),
+                events: payload.events,
             };
             addDataToLocalStorage(updatedAllEvents.events);
             return updatedAllEvents;

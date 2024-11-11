@@ -22,7 +22,7 @@ function EventCard({ eventDetails }: { eventDetails: EventDetailsProp }) {
                 <p>Location: {eventDetails.location}</p>
             </div>
             <div className="sm:space-x-4 space-x-2">
-                {eventDetails.isEventDone ? (
+                {new Date(eventDetails.date) < new Date() ? (
                     <p className="inline items-center justify-center gap-2 rounded-md text-sm font-medium h-10 px-4 py-2 w-fit bg-gray-100 text-black cursor-default">
                         Done
                     </p>
