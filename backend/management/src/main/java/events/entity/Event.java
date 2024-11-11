@@ -14,4 +14,11 @@ public class Event {
 	private String date;
 	private String location;
 	private BudgetDto budget;
+
+	public Event(String eventId, String title, String date, String location) {
+		this.eventId = eventId;
+		this.title = title;
+		this.date = date;
+		this.location = location;
+	}
 }
