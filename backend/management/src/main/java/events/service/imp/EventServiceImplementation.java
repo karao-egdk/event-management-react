@@ -101,7 +101,14 @@ public class EventServiceImplementation implements EventService {
 
 	@Override
 	public void addBudget(Budget budget) throws NoDataException {
-		// TODO Auto-generated method stub
+		if (budget == null)
+			throw new NoDataException("Event Data is null");
+
+		if (budget.getAmount() == null || budget.getDescription() == null || budget.getEventId() == null
+				|| budget.getId() == null || budget.getType() == null)
+			throw new NoDataException("Some data missing");
+
+		repo.addBudget(budget);
 
 	}
 

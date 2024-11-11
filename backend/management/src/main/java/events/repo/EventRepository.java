@@ -58,8 +58,9 @@ public class EventRepository implements EventDao {
 
 	@Override
 	public void addBudget(Budget budget) {
-		// TODO Auto-generated method stub
+		final String ADD_BUDGET = "INSERT INTO BUDGET (id, event_id, description, amount, budget_type) VALUES (:id, :eventId, :description, :amount, cast(:type as BUDGET_TYPE))";
 
+		database.update(SqlQuery.namedQuery(ADD_BUDGET, budget));
 	}
 
 	@Override
