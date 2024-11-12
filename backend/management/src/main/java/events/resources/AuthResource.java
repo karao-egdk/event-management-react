@@ -1,8 +1,5 @@
 package events.resources;
 
-import java.util.Map;
-import java.util.UUID;
-
 import org.dalesbred.Database;
 
 import events.entity.Auth;
@@ -12,7 +9,9 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Cookie;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
@@ -30,9 +29,20 @@ public class AuthResource {
 	@Path("/login")
 	public Response login(Auth auth) {
 		try {
-			Map<String, UUID> uuid = service.login(auth);
+			String token = service.login(auth);
 
-			return Response.status(Status.OK).entity(uuid).build();
+			if (token == null) {
+				return Response.status(Status.NOT_ACCEPTABLE).entity("Wrong password").build();
+			}
+
+			if (token.equals("")) {
+				return Response.status(Status.NOT_FOUND).entity("No user").build();
+			}
+
+			Cookie cookie = new Cookie("token", token);
+			NewCookie cookies = new NewCookie(cookie);
+
+			return Response.status(Status.OK).entity("Successfully logged in").cookie(cookies).build();
 		} catch (Exception e) {
 			return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
 		}
@@ -42,9 +52,9 @@ public class AuthResource {
 	@Path("/sign-up")
 	public Response signup(Auth auth) {
 		try {
-			Map<String, UUID> uuid = service.signup(auth);
+			String token = service.signup(auth);
 
-			return Response.status(Status.OK).entity(uuid).build();
+			return Response.status(Status.OK).entity(token).build();
 		} catch (Exception e) {
 			return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
 		}

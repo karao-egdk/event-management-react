@@ -1,13 +1,11 @@
 package events.service;
 
-import java.util.Map;
-import java.util.UUID;
-
 import events.entity.Auth;
+import events.exceptions.NoDataException;
 
 public interface AuthService {
 
-	Map<String, UUID> login(Auth auth);
+	String login(Auth auth) throws NoDataException;
 
-	Map<String, UUID> signup(Auth auth);
+	String signup(Auth auth) throws NoDataException;
 }

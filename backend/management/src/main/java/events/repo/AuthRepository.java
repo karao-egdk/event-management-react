@@ -17,7 +17,7 @@ public class AuthRepository implements AuthDao {
 
 	@Override
 	public Auth login(Auth auth) {
-		final String LOGIN = "SELECT * FROM AUTH WHERE email=:email AND password=:password";
+		final String LOGIN = "SELECT * FROM AUTH WHERE email=:email";
 		Auth loggedInUser = database.findUnique(Auth.class, SqlQuery.namedQuery(LOGIN, auth));
 
 		return loggedInUser;
