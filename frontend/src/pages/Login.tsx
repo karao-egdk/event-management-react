@@ -1,7 +1,10 @@
 import { AuthForm } from "../components/AuthForm";
 
 function Login() {
-    return <AuthForm type="login" />;
+    const onSubmit = (values: { email: string; password: string }) => {
+      console.log(values)
+    };
+    return <AuthForm submitForm={onSubmit} type="login" />;
 }
 
 export default Login;

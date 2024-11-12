@@ -15,7 +15,6 @@ import {
     FormMessage,
 } from "./ui/form";
 import { Input } from "./ui/input";
-import { Label } from "./ui/label";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -33,7 +32,13 @@ const formSchema = z.object({
         .min(6, { message: "Password should have a min length of 6" }),
 });
 
-export function AuthForm({ type }: { type: "login" | "signup" }) {
+export function AuthForm({
+    type,
+    submitForm,
+}: {
+    type: "login" | "signup";
+    submitForm: (values: z.infer<typeof formSchema>) => void;
+}) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -43,13 +48,15 @@ export function AuthForm({ type }: { type: "login" | "signup" }) {
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
+        submitForm(values);
     }
 
     return (
         <Card className="mx-auto my-auto max-w-sm">
             <CardHeader>
-                <CardTitle className="text-2xl">{type === "login" ? "Login" : "Signup"}</CardTitle>
+                <CardTitle className="text-2xl">
+                    {type === "login" ? "Login" : "Signup"}
+                </CardTitle>
                 <CardDescription>
                     Enter your details below to {type} to your account
                 </CardDescription>
@@ -98,20 +105,24 @@ export function AuthForm({ type }: { type: "login" | "signup" }) {
                                 />
                             </div>
                             <Button type="submit" className="w-full">
-                            {type === "login" ? "Login" : "Signup"}
+                                {type === "login" ? "Login" : "Signup"}
                             </Button>
                         </div>
-                        {type === "login" ? <div className="mt-4 text-center text-sm">
-                            Don&apos;t have an account?{" "}
-                            <a href="sign-up" className="underline">
-                                Sign up
-                            </a>
-                        </div> : <div className="mt-4 text-center text-sm">
-                            Already have an account?{" "}
-                            <a href="login" className="underline">
-                                Login
-                            </a>
-                        </div>}
+                        {type === "login" ? (
+                            <div className="mt-4 text-center text-sm">
+                                Don&apos;t have an account?{" "}
+                                <a href="sign-up" className="underline">
+                                    Sign up
+                                </a>
+                            </div>
+                        ) : (
+                            <div className="mt-4 text-center text-sm">
+                                Already have an account?{" "}
+                                <a href="login" className="underline">
+                                    Login
+                                </a>
+                            </div>
+                        )}
                     </form>
                 </Form>
             </CardContent>
