@@ -5,6 +5,7 @@ import java.util.EnumSet;
 import org.dalesbred.Database;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 
+import events.resources.AuthResource;
 import events.resources.EventResource;
 import io.dropwizard.core.Application;
 import io.dropwizard.core.setup.Bootstrap;
@@ -51,6 +52,7 @@ public class eventsApplication extends Application<eventsConfiguration> {
 		cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 
 		environment.jersey().register(new EventResource(database));
+		environment.jersey().register(new AuthResource(database));
 	}
 
 }
