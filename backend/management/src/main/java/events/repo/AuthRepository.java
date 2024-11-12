@@ -3,6 +3,7 @@ package events.repo;
 import java.util.UUID;
 
 import org.dalesbred.Database;
+import org.dalesbred.query.SqlQuery;
 
 import events.dao.AuthDao;
 import events.entity.Auth;
@@ -16,22 +17,27 @@ public class AuthRepository implements AuthDao {
 
 	@Override
 	public Auth login(Auth auth) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		final String LOGIN = "SELECT * FROM AUTH WHERE email=:email AND password=:password";
+		Auth loggedInUser = database.findUnique(Auth.class, SqlQuery.namedQuery(LOGIN, auth));
 
-	@Override
-	public UUID isUserPresent(String email) {
-		// TODO Auto-generated method stub
-		return null;
+		return loggedInUser;
+
 	}
 
 	@Override
 	public void signup(Auth auth) {
-		// TODO Auto-generated method stub
-		
+		final String SIGNUP = "INSERT INTO AUTH (id, email, password) VALUES (:id, :email, :password)";
+
+		database.update(SqlQuery.namedQuery(SIGNUP, auth));
+
 	}
 
+	@Override
+	public UUID isUserPresent(String email) {
+		final String LOGIN = "SELECT * FROM AUTH WHERE email=?";
+		Auth loggedInUser = database.findUnique(Auth.class, SqlQuery.query(LOGIN, email));
 
+		return loggedInUser.getId();
+	}
 
 }
