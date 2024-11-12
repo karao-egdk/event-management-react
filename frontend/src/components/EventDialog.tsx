@@ -20,7 +20,7 @@ import { cn } from "../lib/utils";
 import { Calendar } from "../components/ui/calendar";
 import useEvent from "../context/EventContext";
 import { EventDetailsProp } from "../lib/interface";
-import Input from "./ui/input";
+import { Input } from "./ui/input";
 
 function EventDialog({
     type,
@@ -50,7 +50,9 @@ function EventDialog({
             const event: EventDetailsProp = {
                 title: input.input,
                 location: input.location,
-                date: date.toLocaleString('fr-CA', {timeZone: 'Asia/Kolkata'}).substring(0, 10),
+                date: date
+                    .toLocaleString("fr-CA", { timeZone: "Asia/Kolkata" })
+                    .substring(0, 10),
                 budget: {
                     expenses: [],
                     income: [],

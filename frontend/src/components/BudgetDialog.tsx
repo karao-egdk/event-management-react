@@ -20,7 +20,7 @@ import {
     TableHeader,
     TableRow,
 } from "./ui/table";
-import Input from "./ui/input";
+import { Input } from "./ui/input";
 
 function BudgetDialog({ eventId }: { eventId: string }) {
     const [input, setInput] = React.useState<{

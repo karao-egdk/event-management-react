@@ -2,7 +2,7 @@ import React from "react";
 import EventCard from "../components/EventCard";
 import EventDialog from "../components/EventDialog";
 import useEvent from "../context/EventContext";
-import Input from "../components/ui/input";
+import { Input } from "../components/ui/input";
 
 function EventManagement() {
     const [search, setSearch] = React.useState<string>("");
@@ -21,7 +21,7 @@ function EventManagement() {
               );
 
     return (
-        <section className="container mx-auto flex flex-col gap-5 py-10 px-2">
+        <>
             <h1 className="text-3xl font-bold">Event Management</h1>
             <div className="flex justify-between items-center w-full">
                 <Input
@@ -43,7 +43,7 @@ function EventManagement() {
                     })}
                 </div>
             )}
-        </section>
+        </>
     );
 }
 
