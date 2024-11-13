@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.dalesbred.Database;
 import org.dalesbred.result.EmptyResultException;
+import org.dalesbred.result.NonUniqueResultException;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import events.dao.AuthDao;
@@ -58,7 +59,32 @@ public class AuthServiceImplementation implements AuthService {
 
 	@Override
 	public String signup(Auth auth) throws NoDataException {
-		return null;
+		if (auth == null)
+			throw new NoDataException("Data cannot be null");
+
+		if (auth.getEmail().equals("") || auth.getEmail() == null || auth.getPassword().equals("")
+				|| auth.getPassword() == null)
+			throw new NoDataException("Some data missing");
+
+		try {
+			repo.isUserPresent(auth.getEmail());
+			return null;
+
+		} catch (NonUniqueResultException e) {
+			// No user present with that email, can create a new user
+		}
+
+		UUID newUserId = UUID.randomUUID();
+		String bcryptHashPassword = BCrypt.withDefaults().hashToString(12, auth.getPassword().toCharArray());
+
+		auth.setId(newUserId);
+		auth.setPassword(bcryptHashPassword);
+
+		repo.signup(auth);
+
+		String token = generateJWT(newUserId, auth.getEmail());
+
+		return token;
 	}
 
 }
