@@ -41,12 +41,15 @@ public class eventsApplication extends Application<eventsConfiguration> {
 
 		cors.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "*");
 		cors.setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM,
-				"X-Requested-With,Content-Type,Accept,Origin,Authorization");
+				"X-Requested-With,Content-Type,Accept,Origin,Authorization,Token");
 		cors.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "OPTIONS,GET,PUT,POST,DELETE,HEAD");
-		cors.setInitParameter(CrossOriginFilter.ALLOW_CREDENTIALS_PARAM, "true");
+		cors.setInitParameter(CrossOriginFilter.ALLOW_CREDENTIALS_PARAM, Boolean.TRUE.toString());
 		cors.setInitParameter(CrossOriginFilter.ACCESS_CONTROL_ALLOW_ORIGIN_HEADER,
 				"X-Requested-With,Content-Type,Accept,Origin,Authorization");
-		cors.setInitParameter(CrossOriginFilter.CHAIN_PREFLIGHT_PARAM, Boolean.FALSE.toString());
+		cors.setInitParameter(CrossOriginFilter.CHAIN_PREFLIGHT_PARAM, Boolean.TRUE.toString());
+		
+		cors.setInitParameter(CrossOriginFilter.ACCESS_CONTROL_EXPOSE_HEADERS_HEADER, Boolean.TRUE.toString());
+		cors.setInitParameter(CrossOriginFilter.EXPOSED_HEADERS_PARAM, "Token");
 
 		// Add URL mapping
 		cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
