@@ -9,9 +9,7 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.Cookie;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
@@ -39,10 +37,7 @@ public class AuthResource {
 				return Response.status(Status.NOT_FOUND).entity("No user").build();
 			}
 
-			Cookie cookie = new Cookie("token", token);
-			NewCookie cookies = new NewCookie(cookie);
-
-			return Response.status(Status.OK).entity("Successfully logged in").cookie(cookies).build();
+			return Response.status(Status.OK).entity("Successfully logged in").header("Token", token).build();
 		} catch (Exception e) {
 			return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
 		}
@@ -54,7 +49,10 @@ public class AuthResource {
 		try {
 			String token = service.signup(auth);
 
-			return Response.status(Status.OK).entity(token).build();
+			if (token == null)
+				return Response.status(Status.NOT_ACCEPTABLE).entity("User already exists with the email").build();
+
+			return Response.status(Status.OK).header("Token", token).build();
 		} catch (Exception e) {
 			return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
 		}
