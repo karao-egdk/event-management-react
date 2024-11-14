@@ -3,8 +3,13 @@ import EventCard from "../components/EventCard";
 import EventDialog from "../components/EventDialog";
 import useEvent from "../context/EventContext";
 import { Input } from "../components/ui/input";
+import { isUserLoggedIn } from "../lib/utils";
+import { Navigate } from "react-router-dom";
 
 function EventManagement() {
+    if (!isUserLoggedIn()) {
+        return <Navigate to="/login" />;
+    }
     const [search, setSearch] = React.useState<string>("");
     const { events } = useEvent();
     const eventDetails =
