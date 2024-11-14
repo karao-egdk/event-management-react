@@ -5,6 +5,9 @@ import useEvent from "../context/EventContext";
 import { Input } from "../components/ui/input";
 import { isUserLoggedIn } from "../lib/utils";
 import { Navigate } from "react-router-dom";
+import { Button } from "../components/ui/button";
+import { CircleUserRoundIcon } from "lucide-react";
+import LogoutDropdown from "../components/LogoutDropdown";
 
 function EventManagement() {
     if (!isUserLoggedIn()) {
@@ -14,7 +17,7 @@ function EventManagement() {
     const { events, updateState } = useEvent();
 
     updateState();
-    
+
     const eventDetails =
         search === ""
             ? events
@@ -30,7 +33,10 @@ function EventManagement() {
 
     return (
         <>
-            <h1 className="text-3xl font-bold">Event Management</h1>
+            <div className="flex justify-between items-center">
+                <h1 className="text-3xl font-bold">Event Management</h1>
+                <LogoutDropdown/>
+            </div>
             <div className="flex gap-2 justify-between items-center w-full">
                 <Input
                     type="search"
