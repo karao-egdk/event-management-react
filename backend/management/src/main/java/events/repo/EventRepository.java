@@ -1,6 +1,7 @@
 package events.repo;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.dalesbred.Database;
 import org.dalesbred.query.SqlQuery;
@@ -27,16 +28,16 @@ public class EventRepository implements EventDao {
 
 	@Override
 	public void addEvent(Event event) {
-		final String ADD_EVENT = "INSERT INTO EVENT (id, title, date, location) VALUES (:eventId, :title, :date, :location)";
+		final String ADD_EVENT = "INSERT INTO EVENT (id, title, date, location, user_id) VALUES (:eventId, :title, :date, :location, :userId)";
 
 		database.update(SqlQuery.namedQuery(ADD_EVENT, event));
 	}
 
 	@Override
-	public List<Event> getEvents() {
-		final String GET_EVENTS = "SELECT * FROM EVENT";
+	public List<Event> getEvents(UUID userId) {
+		final String GET_EVENTS = "SELECT * FROM EVENT WHERE user_id = ?";
 
-		List<Event> events = database.findAll(Event.class, GET_EVENTS);
+		List<Event> events = database.findAll(Event.class, SqlQuery.query(GET_EVENTS, userId));
 		return events;
 	}
 

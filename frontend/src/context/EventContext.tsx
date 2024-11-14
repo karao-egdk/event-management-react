@@ -3,6 +3,7 @@ import eventReducer, { initialState } from "./reducer/eventReducer";
 import { Budget, EventDetailsProp } from "../lib/interface";
 import axios from "axios";
 import { toast } from "sonner";
+import { getUserToken } from "../lib/utils";
 
 interface ContextProps {
     events: EventDetailsProp[];
@@ -37,13 +38,20 @@ const EventContext = createContext(createContextInitialState);
 export const EventProvider = ({ children }: { children: React.ReactNode }) => {
     const [state, dispatch] = useReducer(eventReducer, initialState);
 
+    const token = getUserToken();
+
     const addEvent = async (event: EventDetailsProp) => {
         const events = state.events;
 
         try {
             const res = await axios.post(
                 `${import.meta.env.VITE_BACKEND_BASE_URL}/add`,
-                event
+                event,
+                {
+                    headers: {
+                        token: token,
+                    },
+                }
             );
 
             if (res.status === 200) {
@@ -140,7 +148,7 @@ export const EventProvider = ({ children }: { children: React.ReactNode }) => {
         }
     };
 
-    const deleteBudget = async(
+    const deleteBudget = async (
         id: string | undefined,
         events: EventDetailsProp[],
         stateId: string | undefined,
@@ -163,7 +171,6 @@ export const EventProvider = ({ children }: { children: React.ReactNode }) => {
             });
             return;
         }
-
 
         let budget;
         let updatedEvents;

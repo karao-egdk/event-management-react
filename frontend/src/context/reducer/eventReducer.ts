@@ -4,14 +4,21 @@ import {
     EventDetailsProp,
     ReducerProps,
 } from "../../lib/interface";
-
-const addDataToLocalStorage = (allEvents: EventDetailsProp[]) => {
-    localStorage.setItem("events", JSON.stringify(allEvents));
-};
+import { getUserToken, isUserLoggedIn } from "../../lib/utils";
 
 const getData = async (): Promise<EventDetailsProp[] | null> => {
+    if (!isUserLoggedIn()) return null;
+
+    const token = getUserToken();
+
     try {
-        const res = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}`);
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}`,
+            {
+                headers: {
+                    'token': token
+                }
+            }
+        );
         return res.data;
     } catch (error) {
         console.error(error);
@@ -41,7 +48,6 @@ const eventReducer = (
                 ...state,
                 events: payload.events,
             };
-            addDataToLocalStorage(updatedAllEvents.events);
             return updatedAllEvents;
         default:
             return state;

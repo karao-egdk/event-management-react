@@ -9,6 +9,7 @@ import events.service.imp.EventServiceImplementation;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
@@ -29,9 +30,9 @@ public class EventResource {
 	}
 
 	@GET
-	public Response getEvents() {
+	public Response getEvents(@HeaderParam("token") String token) {
 		try {
-			return Response.status(Status.OK).entity(eventService.getEvents()).build();
+			return Response.status(Status.OK).entity(eventService.getEvents(token)).build();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Response.status(Status.BAD_GATEWAY).entity(e.getMessage()).build();
@@ -40,9 +41,9 @@ public class EventResource {
 
 	@POST
 	@Path("/add")
-	public Response addEvent(Event event) {
+	public Response addEvent(Event event, @HeaderParam("token") String token) {
 		try {
-			eventService.addEvent(event);
+			eventService.addEvent(event, token);
 			return Response.status(Status.OK).entity("Event added successfully").build();
 		} catch (Exception e) {
 			e.printStackTrace();
