@@ -6,12 +6,14 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Layout from "./components/Layout";
+import Error from "./pages/Error";
 
 function App() {
     const router = createBrowserRouter([
         {
             path: "/",
             element: <Home />,
+            errorElement: <Error />
         },
         {
             path: "login",
