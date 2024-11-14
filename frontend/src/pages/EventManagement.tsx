@@ -23,7 +23,7 @@ function EventManagement() {
     return (
         <>
             <h1 className="text-3xl font-bold">Event Management</h1>
-            <div className="flex justify-between items-center w-full">
+            <div className="flex gap-2 justify-between items-center w-full">
                 <Input
                     type="search"
                     placeholder="Search for event"
