@@ -29,7 +29,7 @@ const formSchema = z.object({
         .email("Please enter a valid email."),
     password: z
         .string()
-        .min(4, { message: "Password should have a min length of 6" }),
+        .min(4, { message: "Password should have a min length of 4" }),
 });
 
 export function AuthForm({
