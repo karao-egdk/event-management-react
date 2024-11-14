@@ -5,8 +5,6 @@ import useEvent from "../context/EventContext";
 import { Input } from "../components/ui/input";
 import { isUserLoggedIn } from "../lib/utils";
 import { Navigate } from "react-router-dom";
-import { Button } from "../components/ui/button";
-import { CircleUserRoundIcon } from "lucide-react";
 import LogoutDropdown from "../components/LogoutDropdown";
 
 function EventManagement() {
