@@ -3,9 +3,11 @@ import { AuthForm } from "../components/AuthForm";
 import { toast } from "sonner";
 import { useNavigate, Navigate } from "react-router-dom";
 import { isUserLoggedIn, setUserToken } from "../lib/utils";
+import useEvent from "../context/EventContext";
 
 function Login() {
     const navigate = useNavigate();
+    const { updateState } = useEvent();
 
     if (isUserLoggedIn()) {
         return <Navigate to="/events" />;
@@ -22,6 +24,8 @@ function Login() {
                     toast("Login!", {
                         description: "Successfully Logged in",
                     });
+
+                    updateState();
 
                     navigate("/events");
                 } else throw new Error("No token found");

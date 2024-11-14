@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import EventCard from "../components/EventCard";
 import EventDialog from "../components/EventDialog";
 import useEvent from "../context/EventContext";
@@ -12,9 +12,7 @@ function EventManagement() {
         return <Navigate to="/login" />;
     }
     const [search, setSearch] = React.useState<string>("");
-    const { events, updateState } = useEvent();
-
-    updateState();
+    const { events } = useEvent();
 
     const eventDetails =
         search === ""

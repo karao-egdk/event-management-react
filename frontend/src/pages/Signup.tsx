@@ -3,9 +3,11 @@ import { AuthForm } from "../components/AuthForm";
 import axios from "axios";
 import { toast } from "sonner";
 import { isUserLoggedIn, setUserToken } from "../lib/utils";
+import useEvent from "../context/EventContext";
 
 function Signup() {
     const navigate = useNavigate();
+    const { updateState } = useEvent();
 
     if (isUserLoggedIn()) {
         return <Navigate to="/events" />;
@@ -22,6 +24,8 @@ function Signup() {
                     toast("Signup!", {
                         description: "Account created successfully",
                     });
+
+                    updateState();
 
                     navigate("/events");
                 }
