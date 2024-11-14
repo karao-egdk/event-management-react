@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Button } from "../components/ui/button";
 
 function Home() {
@@ -13,8 +14,8 @@ function Home() {
                     ipsa quae.
                 </p>
                 <div className="items-center justify-center gap-x-3 space-x-3 sm:space-x-0 space-y-3 sm:flex sm:space-y-0 xl:justify-start">
-                    <Button>View events</Button>
-                    <Button variant={'outline'}>Login Now</Button>
+                    <Button asChild><Link to="/events">View Events</Link></Button>
+                    <Button variant={'outline'} asChild><Link to="/login">Login now</Link></Button>
                 </div>
             </div>
         </div>
