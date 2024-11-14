@@ -12,11 +12,12 @@ export const getData = async (): Promise<EventDetailsProp[] | null> => {
     const token = getUserToken();
 
     try {
-        const res = await axios.get(`${import.meta.env.VITE_BACKEND_BASE_URL}`,
+        const res = await axios.get(
+            `${import.meta.env.VITE_BACKEND_BASE_URL}`,
             {
                 headers: {
-                    'token': token
-                }
+                    token: token,
+                },
             }
         );
         return res.data;

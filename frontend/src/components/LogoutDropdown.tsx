@@ -13,13 +13,12 @@ import {
 import { CircleUserRoundIcon, LogOut } from "lucide-react";
 
 function LogoutDropdown() {
-
     const navigate = useNavigate();
 
     const logout = () => {
         if (isUserLoggedIn()) {
             localStorage.removeItem("token");
-            navigate("/")
+            navigate("/");
         }
     };
 
