@@ -1,9 +1,9 @@
 import React, { createContext, useReducer, useContext } from "react";
-import eventReducer, { initialState } from "./reducer/eventReducer";
+import eventReducer, { getData, initialState } from "./reducer/eventReducer";
 import { Budget, EventDetailsProp } from "../lib/interface";
 import axios from "axios";
 import { toast } from "sonner";
-import { getUserToken } from "../lib/utils";
+import { getUserToken, isUserLoggedIn } from "../lib/utils";
 
 interface ContextProps {
     events: EventDetailsProp[];
@@ -22,6 +22,7 @@ interface ContextProps {
         type: "expense" | "income"
     ) => void;
     deleteEvent: (eventId: string) => void;
+    updateState: () => void;
 }
 
 const createContextInitialState: ContextProps = {
@@ -31,6 +32,7 @@ const createContextInitialState: ContextProps = {
     addBudget: () => {},
     deleteBudget: () => {},
     deleteEvent: () => {},
+    updateState: () => {},
 };
 
 const EventContext = createContext(createContextInitialState);
@@ -39,6 +41,19 @@ export const EventProvider = ({ children }: { children: React.ReactNode }) => {
     const [state, dispatch] = useReducer(eventReducer, initialState);
 
     const token = getUserToken();
+
+    const updateState = async () => {
+        if (isUserLoggedIn()) {
+            const events = await getData();
+            if (events !== null)
+                dispatch({
+                    type: "UPDATE_STATE",
+                    payload: {
+                        events,
+                    },
+                });
+        }
+    };
 
     const addEvent = async (event: EventDetailsProp) => {
         const events = state.events;
@@ -290,6 +305,7 @@ export const EventProvider = ({ children }: { children: React.ReactNode }) => {
         addBudget,
         deleteBudget,
         deleteEvent,
+        updateState,
     };
 
     return (

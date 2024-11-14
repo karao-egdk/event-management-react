@@ -11,7 +11,10 @@ function EventManagement() {
         return <Navigate to="/login" />;
     }
     const [search, setSearch] = React.useState<string>("");
-    const { events } = useEvent();
+    const { events, updateState } = useEvent();
+
+    updateState();
+    
     const eventDetails =
         search === ""
             ? events

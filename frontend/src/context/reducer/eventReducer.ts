@@ -6,7 +6,7 @@ import {
 } from "../../lib/interface";
 import { getUserToken, isUserLoggedIn } from "../../lib/utils";
 
-const getData = async (): Promise<EventDetailsProp[] | null> => {
+export const getData = async (): Promise<EventDetailsProp[] | null> => {
     if (!isUserLoggedIn()) return null;
 
     const token = getUserToken();
@@ -37,6 +37,7 @@ const eventReducer = (
     const { type, payload } = action;
 
     switch (type) {
+        case "UPDATE_STATE":
         case "ADD_EVENT":
         case "EDIT_EVENT":
         case "DELETE_EVENT":
