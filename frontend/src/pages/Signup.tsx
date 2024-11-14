@@ -1,11 +1,16 @@
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { AuthForm } from "../components/AuthForm";
 import axios from "axios";
 import { toast } from "sonner";
-import { setUserToken } from "../lib/utils";
+import { isUserLoggedIn, setUserToken } from "../lib/utils";
 
 function Signup() {
     const navigate = useNavigate();
+
+    if (isUserLoggedIn()) {
+        return <Navigate to="/events" />;
+    }
+
     const onSubmit = (values: { email: string; password: string }) => {
         axios
             .post(`${import.meta.env.VITE_BACKEND_AUTH_URL}/sign-up`, values, {

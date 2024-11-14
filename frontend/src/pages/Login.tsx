@@ -1,11 +1,16 @@
 import axios from "axios";
 import { AuthForm } from "../components/AuthForm";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
-import { setUserToken } from "../lib/utils";
+import { useNavigate, Navigate } from "react-router-dom";
+import { isUserLoggedIn, setUserToken } from "../lib/utils";
 
 function Login() {
     const navigate = useNavigate();
+
+    if (isUserLoggedIn()) {
+        return <Navigate to="/events" />;
+    }
+
     const onSubmit = (values: { email: string; password: string }) => {
         axios
             .post(`${import.meta.env.VITE_BACKEND_AUTH_URL}/login`, values, {
