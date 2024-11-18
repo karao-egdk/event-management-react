@@ -161,7 +161,7 @@ function BudgetDialog({ eventId }: { eventId: string }) {
                     <p
                         className={cn(
                             "w-full p-2",
-                            calcBudget >= 0 ? "bg-green-200" : "bg-red-200"
+                            calcBudget >= 0 ? "bg-green-200 dark:bg-green-800" : "bg-red-200 dark:bg-red-800"
                         )}
                     >
                         {calcBudget}$
