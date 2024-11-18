@@ -3,9 +3,9 @@ import { Button } from "../components/ui/button";
 
 function Home() {
     return (
-        <div className="max-w-screen-xl mx-auto px-4 py-28 gap-12 text-gray-600 md:px-8 xl:flex">
+        <div className="max-w-screen-xl mx-auto px-4 py-28 gap-12 text-gray-600 dark:text-white md:px-8 xl:flex">
             <div className="space-y-5 max-w-2xl mx-auto text-center xl:text-left">
-                <h1 className="text-4xl text-gray-800 font-extrabold mx-auto md:text-5xl">
+                <h1 className="text-4xl text-gray-800 dark:text-white font-extrabold mx-auto md:text-5xl">
                     Create and view events
                 </h1>
                 <p className="max-w-xl mx-auto xl:mx-0">
