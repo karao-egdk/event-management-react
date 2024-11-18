@@ -75,7 +75,7 @@ function BudgetDialog({ eventId }: { eventId: string }) {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button className="bg-white text-black hover:bg-gray-100 border">
+                <Button  variant={'outline'}>
                     View Budget
                 </Button>
             </DialogTrigger>

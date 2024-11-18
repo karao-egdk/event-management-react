@@ -78,7 +78,7 @@ function EventDialog({
                 {type === "create" ? (
                     <Button>Create new Event</Button>
                 ) : (
-                    <Button className="bg-white text-black hover:bg-gray-100 border">
+                    <Button variant={'outline'}>
                         Edit Event
                     </Button>
                 )}
@@ -127,7 +127,7 @@ function EventDialog({
                                 )}
                             </Button>
                         </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0 bg-white">
+                        <PopoverContent className="w-auto p-0 bg-white dark:bg-black">
                             <Calendar
                                 mode="single"
                                 selected={date}

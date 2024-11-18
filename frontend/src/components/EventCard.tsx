@@ -11,7 +11,7 @@ function EventCard({ eventDetails }: { eventDetails: EventDetailsProp }) {
     };
 
     return (
-        <div className="rounded-lg border shadow-sm sm:w-[25rem] p-4 group">
+        <div className="rounded-lg border dark:border-white/25 shadow-sm sm:w-[25rem] p-4 group">
             <div className="flex justify-between w-full items-center">
                 <h2 className="text-md font-bold">{eventDetails.title}</h2>
                 <DeleteEventDialog id={eventDetails.eventId} />
@@ -23,11 +23,11 @@ function EventCard({ eventDetails }: { eventDetails: EventDetailsProp }) {
             </div>
             <div className="sm:space-x-4 space-x-2">
                 {new Date(eventDetails.date) < new Date() ? (
-                    <p className="inline items-center justify-center gap-2 rounded-md text-sm font-medium h-10 px-4 py-2 w-fit bg-gray-100 text-black cursor-default">
+                    <p className="inline items-center justify-center gap-2 rounded-md text-sm font-medium h-10 px-4 py-2 w-fit bg-gray-100 dark:bg-gray-500 dark:text-white text-black cursor-default">
                         Done
                     </p>
                 ) : (
-                    <p className="inline items-center justify-center gap-2 rounded-md text-sm font-medium h-10 px-4 py-2 w-fit bg-black text-white cursor-default">
+                    <p className="inline items-center justify-center gap-2 rounded-md text-sm font-medium h-10 px-4 py-2 w-fit bg-black dark:bg-white dark:text-black text-white cursor-default">
                         Upcoming
                     </p>
                 )}

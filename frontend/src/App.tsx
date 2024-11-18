@@ -7,13 +7,14 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Layout from "./components/Layout";
 import Error from "./pages/Error";
+import { ThemeProvider } from "./components/theme-provider";
 
 function App() {
     const router = createBrowserRouter([
         {
             path: "/",
             element: <Home />,
-            errorElement: <Error />
+            errorElement: <Error />,
         },
         {
             path: "login",
@@ -30,11 +31,13 @@ function App() {
     ]);
 
     return (
-        <EventProvider>
-            <Layout>
-                <RouterProvider router={router} />
-            </Layout>
-        </EventProvider>
+        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+            <EventProvider>
+                <Layout>
+                    <RouterProvider router={router} />
+                </Layout>
+            </EventProvider>
+        </ThemeProvider>
     );
 }
 
