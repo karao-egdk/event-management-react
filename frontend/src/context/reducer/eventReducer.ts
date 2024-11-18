@@ -4,22 +4,20 @@ import {
     EventDetailsProp,
     ReducerProps,
 } from "../../lib/interface";
-import { getUserToken, isUserLoggedIn } from "../../lib/utils";
+import { isUserLoggedIn } from "../../lib/utils";
+import { setupInterceptorsTo } from "../../lib/interceptors";
+
+const axiosInstance = axios.create({
+    baseURL: import.meta.env.VITE_BACKEND_BASE_URL,
+});
 
 export const getData = async (): Promise<EventDetailsProp[] | null> => {
     if (!isUserLoggedIn()) return null;
 
-    const token = getUserToken();
+    const instance = setupInterceptorsTo(axiosInstance);
 
     try {
-        const res = await axios.get(
-            `${import.meta.env.VITE_BACKEND_BASE_URL}`,
-            {
-                headers: {
-                    token: token,
-                },
-            }
-        );
+        const res = await instance.get("");
         return res.data;
     } catch (error) {
         console.error(error);

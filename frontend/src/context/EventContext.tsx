@@ -4,6 +4,13 @@ import { Budget, EventDetailsProp } from "../lib/interface";
 import axios from "axios";
 import { toast } from "sonner";
 import { getUserToken, isUserLoggedIn } from "../lib/utils";
+import { setupInterceptorsTo } from "../lib/interceptors";
+
+const axiosInstance = axios.create({
+    baseURL: import.meta.env.VITE_BACKEND_BASE_URL,
+});
+
+const instance = setupInterceptorsTo(axiosInstance);
 
 interface ContextProps {
     events: EventDetailsProp[];
@@ -59,15 +66,11 @@ export const EventProvider = ({ children }: { children: React.ReactNode }) => {
         const events = state.events;
 
         try {
-            const res = await axios.post(
-                `${import.meta.env.VITE_BACKEND_BASE_URL}/add`,
-                event,
-                {
-                    headers: {
-                        token: token,
-                    },
-                }
-            );
+            const res = await instance.post("/add", event, {
+                headers: {
+                    token: token,
+                },
+            });
 
             if (res.status === 200) {
                 events.push(event);
@@ -93,10 +96,7 @@ export const EventProvider = ({ children }: { children: React.ReactNode }) => {
 
     const updateEvent = async (event: EventDetailsProp) => {
         try {
-            const res = await axios.put(
-                `${import.meta.env.VITE_BACKEND_BASE_URL}/update`,
-                event
-            );
+            const res = await instance.put("/update", event);
 
             if (res.status === 200) {
                 const updatedEvents = state.events.map((ev) => {
@@ -135,9 +135,7 @@ export const EventProvider = ({ children }: { children: React.ReactNode }) => {
         const events = state.events;
 
         try {
-            const res = await axios.delete(
-                `${import.meta.env.VITE_BACKEND_BASE_URL}/delete/${eventId}`
-            );
+            const res = await instance.delete(`/${eventId}`);
 
             if (res.status === 200) {
                 const updatedEvents = events.filter(
@@ -172,9 +170,7 @@ export const EventProvider = ({ children }: { children: React.ReactNode }) => {
         if (!id && !stateId) return;
 
         try {
-            await axios.delete(
-                `${import.meta.env.VITE_BACKEND_BASE_URL}/budget/delete/${id}`
-            );
+            await instance.delete(`/budget/delete/${id}`);
 
             toast("Budget deleted", {
                 description: type + " was deleted successfully",
@@ -246,10 +242,7 @@ export const EventProvider = ({ children }: { children: React.ReactNode }) => {
                 type: type.toUpperCase(),
             };
 
-            await axios.post(
-                `${import.meta.env.VITE_BACKEND_BASE_URL}/budget/add`,
-                createBudget
-            );
+            await instance.post(`/budget/add`, createBudget);
 
             toast("Budget added", {
                 description: type + " was added successfully",

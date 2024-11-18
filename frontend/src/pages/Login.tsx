@@ -4,6 +4,13 @@ import { toast } from "sonner";
 import { useNavigate, Navigate } from "react-router-dom";
 import { isUserLoggedIn, setUserToken } from "../lib/utils";
 import useEvent from "../context/EventContext";
+import { setupInterceptorsTo } from "../lib/interceptors";
+
+const axiosInstance = axios.create({
+    baseURL: import.meta.env.VITE_BACKEND_AUTH_URL,
+});
+
+const instance = setupInterceptorsTo(axiosInstance);
 
 function Login() {
     const navigate = useNavigate();
@@ -14,8 +21,8 @@ function Login() {
     }
 
     const onSubmit = (values: { email: string; password: string }) => {
-        axios
-            .post(`${import.meta.env.VITE_BACKEND_AUTH_URL}/login`, values, {
+        instance
+            .post("/login", values, {
                 headers: { "Content-Type": "application/json" },
             })
             .then((res) => {
