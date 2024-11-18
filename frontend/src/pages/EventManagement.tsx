@@ -32,7 +32,7 @@ function EventManagement() {
         <>
             <div className="flex justify-between items-center">
                 <h1 className="text-3xl font-bold">Event Management</h1>
-                <div className="space-x-2">
+                <div className="sm:space-x-2 space-x-0">
                     <LogoutDropdown />
                     <ModeToggle />
                 </div>
