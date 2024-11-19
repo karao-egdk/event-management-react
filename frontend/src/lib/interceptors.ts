@@ -1,7 +1,6 @@
 import axios, {
     AxiosError,
     AxiosInstance,
-    AxiosResponse,
     InternalAxiosRequestConfig,
 } from "axios";
 import { getUserDetails, getUserToken, setUserToken } from "./utils";
