@@ -1,11 +1,37 @@
-import { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from "axios";
-import { getUserToken } from "./utils";
+import axios, {
+    AxiosError,
+    AxiosInstance,
+    AxiosResponse,
+    InternalAxiosRequestConfig,
+} from "axios";
+import { getUserDetails, getUserToken, setUserToken } from "./utils";
+import * as jose from "jose";
 
-const onRequest = (
+const refreshToken = async (uuid: string, email: string) => {
+    const res = await axios.post(
+        `${import.meta.env.VITE_BACKEND_AUTH_URL}/refresh-token`,
+        {
+            uuid,
+            email,
+        }
+    );
+    return res.headers["Token"] as string;
+};
+
+const onRequest = async (
     request: InternalAxiosRequestConfig
-): InternalAxiosRequestConfig => {
+): Promise<InternalAxiosRequestConfig> => {
+    const token = getUserToken();
+    try {
+        jose.decodeJwt(token);
+    } catch (e) {
+        console.log(e);
+        const { email, uuid } = getUserDetails();
+        const token = await refreshToken(uuid, email);
+        setUserToken(token);
+    }
+
     if (request.url === "") {
-        const token = getUserToken();
         request.headers.token = token;
     }
 
@@ -17,9 +43,20 @@ const onRequestError = (error: AxiosError): Promise<AxiosError> => {
     return Promise.reject(error);
 };
 
+const onResponse = (response: AxiosResponse): AxiosResponse => {
+    return response;
+};
+
+const onResponseError = (error: AxiosError): Promise<AxiosError> => {
+    if (error.status === 401) {
+    }
+    return Promise.reject(error);
+};
+
 export function setupInterceptorsTo(
     axiosInstance: AxiosInstance
 ): AxiosInstance {
     axiosInstance.interceptors.request.use(onRequest, onRequestError);
+    axiosInstance.interceptors.response.use(onResponse, onResponseError);
     return axiosInstance;
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.dalesbred.Database;
@@ -38,11 +39,15 @@ public class EventServiceImplementation implements EventService {
 			System.err.println(e);
 		}
 	}
-	
-	private UUID getUUIDFromToken(String token) {
-		Claims claim = Jwts.parser().setSigningKey("SECRET_KEY").parseClaimsJws(token).getBody();
 
-		return UUID.fromString((String) claim.get("uuid"));
+	private Optional<UUID> getUUIDFromToken(String token) {
+		try {
+			Claims claim = Jwts.parser().setSigningKey("SECRET_KEY").parseClaimsJws(token).getBody();
+			return Optional.of(UUID.fromString((String) claim.get("uuid")));
+		} catch (Exception e) {
+			return Optional.empty();
+		}
+
 	}
 
 	private String generateTableIfExists() throws IOException {
@@ -60,18 +65,24 @@ public class EventServiceImplementation implements EventService {
 				|| event.getEventId() == null)
 			throw new NoDataException("Some data missing");
 
-		UUID userId = getUUIDFromToken(token);
-		event.setUserId(userId);
-		
-		repo.addEvent(event);
+		Optional<UUID> userId = getUUIDFromToken(token);
+		if (userId.isPresent()) {
+			event.setUserId(userId.get());
+			repo.addEvent(event);
+		} else {
+			throw new NoDataException("Token Expired");
+		}
 
 	}
 
 	@Override
 	public List<Event> getEvents(String token) {
-		UUID userId = getUUIDFromToken(token);
+		Optional<UUID> userId = getUUIDFromToken(token);
 
-		List<Event> events = repo.getEvents(userId);
+		if (userId.isEmpty())
+			return new ArrayList<>();
+
+		List<Event> events = repo.getEvents(userId.get());
 
 		if (events.size() <= 0)
 			return new ArrayList<>();

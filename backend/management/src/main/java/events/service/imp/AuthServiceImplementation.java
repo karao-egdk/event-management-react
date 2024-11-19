@@ -1,5 +1,8 @@
 package events.service.imp;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.UUID;
 
 import org.dalesbred.Database;
@@ -8,6 +11,7 @@ import org.dalesbred.result.NonUniqueResultException;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import events.dao.AuthDao;
+import events.dto.RefreshTokenDto;
 import events.entity.Auth;
 import events.exceptions.NoDataException;
 import events.repo.AuthRepository;
@@ -23,8 +27,9 @@ public class AuthServiceImplementation implements AuthService {
 	}
 
 	private String generateJWT(UUID uuid, String email) {
+		Instant now = Instant.now();
 		return Jwts.builder().setSubject(email).claim("uuid", uuid).signWith(SignatureAlgorithm.HS256, "SECRET_KEY")
-				.compact();
+				.setIssuedAt(Date.from(now)).setExpiration(Date.from(now.plus(3, ChronoUnit.MINUTES))).compact();
 	}
 
 	@Override
@@ -85,6 +90,11 @@ public class AuthServiceImplementation implements AuthService {
 		String token = generateJWT(newUserId, auth.getEmail());
 
 		return token;
+	}
+
+	@Override
+	public String refreshToken(RefreshTokenDto tokenDetails) {
+		return generateJWT(tokenDetails.getUuid(), tokenDetails.getEmail());
 	}
 
 }

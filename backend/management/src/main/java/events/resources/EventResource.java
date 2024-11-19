@@ -1,5 +1,7 @@
 package events.resources;
 
+import java.util.List;
+
 import org.dalesbred.Database;
 
 import events.entity.Budget;
@@ -32,7 +34,9 @@ public class EventResource {
 	@GET
 	public Response getEvents(@HeaderParam("token") String token) {
 		try {
-			return Response.status(Status.OK).entity(eventService.getEvents(token)).build();
+			List<Event> events = eventService.getEvents(token);
+
+			return Response.status(Status.OK).entity(events).build();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Response.status(Status.BAD_GATEWAY).entity(e.getMessage()).build();

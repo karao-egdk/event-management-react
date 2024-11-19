@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { isUserLoggedIn } from "../lib/utils";
+import { isUserLoggedIn, logoutUser } from "../lib/utils";
 import { Button } from "./ui/button";
 import {
     DropdownMenu,
@@ -17,7 +17,7 @@ function LogoutDropdown() {
 
     const logout = () => {
         if (isUserLoggedIn()) {
-            localStorage.removeItem("token");
+            logoutUser();
             navigate("/");
         }
     };

@@ -2,6 +2,7 @@ package events.resources;
 
 import org.dalesbred.Database;
 
+import events.dto.RefreshTokenDto;
 import events.entity.Auth;
 import events.service.AuthService;
 import events.service.imp.AuthServiceImplementation;
@@ -56,5 +57,17 @@ public class AuthResource {
 		} catch (Exception e) {
 			return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
 		}
+	}
+
+	@POST
+	@Path("/refresh-token")
+	public Response refreshToken(RefreshTokenDto tokenDetails) {
+		try {
+			String token = service.refreshToken(tokenDetails);
+			return Response.status(Status.OK).entity("Generated successfully").header("Token", token).build();
+		} catch (Exception e) {
+			return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+		}
+
 	}
 }
