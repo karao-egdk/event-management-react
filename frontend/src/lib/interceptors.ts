@@ -14,7 +14,7 @@ const refreshToken = async (uuid: string, email: string) => {
             email,
         }
     );
-    return res.headers["Token"] as string;
+    return res.headers["token"] as string;
 };
 
 const onRequest = async (
@@ -22,7 +22,10 @@ const onRequest = async (
 ): Promise<InternalAxiosRequestConfig> => {
     const token = getUserToken();
     try {
-        jose.decodeJwt(token);
+        const claims = jose.decodeJwt(token);
+        const expiration = new Date(claims.exp! * 1000);
+        const now = new Date();
+        if (now > expiration) throw new Error("Expired")
     } catch (e) {
         console.log(e);
         const { email, uuid } = getUserDetails();
@@ -41,7 +44,6 @@ const onRequestError = (error: AxiosError): Promise<AxiosError> => {
     console.error(error);
     return Promise.reject(error);
 };
-
 
 export function setupInterceptorsTo(
     axiosInstance: AxiosInstance
