@@ -80,7 +80,7 @@ public class EventServiceImplementation implements EventService {
 		Optional<UUID> userId = getUUIDFromToken(token);
 
 		if (userId.isEmpty())
-			return new ArrayList<>();
+			return null;
 
 		List<Event> events = repo.getEvents(userId.get());
 

@@ -1,16 +1,11 @@
 import React, { createContext, useReducer, useContext } from "react";
 import eventReducer, { getData, initialState } from "./reducer/eventReducer";
 import { Budget, EventDetailsProp } from "../lib/interface";
-import axios from "axios";
 import { toast } from "sonner";
 import { getUserToken, isUserLoggedIn } from "../lib/utils";
-import { setupInterceptorsTo } from "../lib/interceptors";
+import { getAxiosInstance } from "../lib/interceptors";
 
-const axiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_BACKEND_BASE_URL,
-});
-
-const instance = setupInterceptorsTo(axiosInstance);
+const instance = getAxiosInstance();
 
 interface ContextProps {
     events: EventDetailsProp[];
@@ -66,7 +61,7 @@ export const EventProvider = ({ children }: { children: React.ReactNode }) => {
         const events = state.events;
 
         try {
-            const res = await instance.post("/add", event, {
+            const res = await instance.post("/events/add", event, {
                 headers: {
                     token: token,
                 },
@@ -96,7 +91,7 @@ export const EventProvider = ({ children }: { children: React.ReactNode }) => {
 
     const updateEvent = async (event: EventDetailsProp) => {
         try {
-            const res = await instance.put("/update", event);
+            const res = await instance.put("/events/update", event);
 
             if (res.status === 200) {
                 const updatedEvents = state.events.map((ev) => {
@@ -135,7 +130,7 @@ export const EventProvider = ({ children }: { children: React.ReactNode }) => {
         const events = state.events;
 
         try {
-            const res = await instance.delete(`/${eventId}`);
+            const res = await instance.delete(`/events/delete/${eventId}`);
 
             if (res.status === 200) {
                 const updatedEvents = events.filter(
@@ -170,7 +165,7 @@ export const EventProvider = ({ children }: { children: React.ReactNode }) => {
         if (!id && !stateId) return;
 
         try {
-            await instance.delete(`/budget/delete/${id}`);
+            await instance.delete(`/events/budget/delete/${id}`);
 
             toast("Budget deleted", {
                 description: type + " was deleted successfully",
@@ -242,7 +237,7 @@ export const EventProvider = ({ children }: { children: React.ReactNode }) => {
                 type: type.toUpperCase(),
             };
 
-            await instance.post(`/budget/add`, createBudget);
+            await instance.post(`/events/budget/add`, createBudget);
 
             toast("Budget added", {
                 description: type + " was added successfully",

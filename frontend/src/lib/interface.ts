@@ -1,3 +1,5 @@
+import { InternalAxiosRequestConfig } from "axios";
+
 export interface EventDetailsProp {
     eventId: string;
     title: string;
@@ -28,4 +30,10 @@ interface Payload {
 export interface ReducerProps {
     type: string;
     payload: Payload;
+}
+
+export interface AxiosRetryItems {
+    resolve: (value?: any) => void;
+    reject: (error?: any) => void;
+    config: InternalAxiosRequestConfig;
 }

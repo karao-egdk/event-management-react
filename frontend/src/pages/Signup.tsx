@@ -1,16 +1,11 @@
 import { Navigate, useNavigate } from "react-router-dom";
 import { AuthForm } from "../components/AuthForm";
-import axios from "axios";
 import { toast } from "sonner";
 import { isUserLoggedIn, setUserToken } from "../lib/utils";
 import useEvent from "../context/EventContext";
-import { setupInterceptorsTo } from "../lib/interceptors";
+import { getAxiosInstance } from "../lib/interceptors";
 
-const axiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_BACKEND_AUTH_URL,
-});
-
-const instance = setupInterceptorsTo(axiosInstance);
+const instance = getAxiosInstance();
 
 function Signup() {
     const navigate = useNavigate();
@@ -22,7 +17,7 @@ function Signup() {
 
     const onSubmit = (values: { email: string; password: string }) => {
         instance
-            .post("/sign-up", values, {
+            .post("/auth/sign-up", values, {
                 headers: { "Content-Type": "application/json" },
             })
             .then((res) => {

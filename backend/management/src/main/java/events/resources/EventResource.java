@@ -36,6 +36,9 @@ public class EventResource {
 		try {
 			List<Event> events = eventService.getEvents(token);
 
+			if (events == null)
+				return Response.status(Status.UNAUTHORIZED).entity("Token expired").build();
+
 			return Response.status(Status.OK).entity(events).build();
 		} catch (Exception e) {
 			e.printStackTrace();
