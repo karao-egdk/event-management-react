@@ -6,6 +6,7 @@ import org.dalesbred.Database;
 
 import events.entity.Budget;
 import events.entity.Event;
+import events.exceptions.TokenExpiredException;
 import events.service.EventService;
 import events.service.imp.EventServiceImplementation;
 import jakarta.ws.rs.Consumes;
@@ -52,6 +53,10 @@ public class EventResource {
 		try {
 			eventService.addEvent(event, token);
 			return Response.status(Status.OK).entity("Event added successfully").build();
+
+		} catch (TokenExpiredException e) {
+			return Response.status(Status.UNAUTHORIZED).entity(e.getMessage()).build();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();

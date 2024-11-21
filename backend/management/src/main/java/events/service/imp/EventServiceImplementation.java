@@ -19,6 +19,7 @@ import events.entity.Budget;
 import events.entity.Event;
 import events.enums.BudgetType;
 import events.exceptions.NoDataException;
+import events.exceptions.TokenExpiredException;
 import events.repo.EventRepository;
 import events.service.EventService;
 import io.jsonwebtoken.Claims;
@@ -57,7 +58,7 @@ public class EventServiceImplementation implements EventService {
 	}
 
 	@Override
-	public void addEvent(Event event, String token) throws NoDataException {
+	public void addEvent(Event event, String token) throws NoDataException, TokenExpiredException {
 		if (event == null)
 			throw new NoDataException("Event Data is null");
 
@@ -70,7 +71,7 @@ public class EventServiceImplementation implements EventService {
 			event.setUserId(userId.get());
 			repo.addEvent(event);
 		} else {
-			throw new NoDataException("Token Expired");
+			throw new TokenExpiredException("Token Expired");
 		}
 
 	}

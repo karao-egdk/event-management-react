@@ -8,7 +8,7 @@ import events.exceptions.NoDataException;
 
 public interface EventService {
 
-	void addEvent(Event event, String token) throws NoDataException;
+	void addEvent(Event event, String token) throws Exception;
 
 	List<Event> getEvents(String token);
 

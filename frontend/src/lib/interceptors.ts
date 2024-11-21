@@ -10,8 +10,8 @@ const axiosInstance = axios.create({
     baseURL: import.meta.env.VITE_BACKEND_BASE_URL,
     headers: {
         "Content-Type": "application/json",
-        Accept: "application/json"
-    }
+        Accept: "application/json",
+    },
 });
 
 const refreshRetryItemsQueue: AxiosRetryItems[] = [];
@@ -33,10 +33,7 @@ const onRequest = async (
     request: InternalAxiosRequestConfig
 ): Promise<InternalAxiosRequestConfig> => {
     const token = getUserToken();
-
-    if (request.url === "/events") {
-        request.headers.token = token;
-    }
+    request.headers.token = token;
 
     return request;
 };
@@ -50,7 +47,6 @@ const onResponseError = async (
     error: AxiosError
 ): Promise<void | AxiosError> => {
     const originalRequest = error.config!;
-    console.log(error)
 
     if (error.response && error.response.status === 401) {
         if (!isRefreshing) {
